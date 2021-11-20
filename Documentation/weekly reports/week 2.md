@@ -1,5 +1,5 @@
 
-# Week 1 report
+# Week 2 report
 
 Hours spent: 10
 
@@ -27,7 +27,7 @@ As previously stated, getting Java testing to work properly. This has luckily be
 ##  What next?
 
 - Fix LZW encoding to include also the last character. 
-- Write Unit tests to cover all the methods for both of the algorithms. 
+- Write Unit tests to cover all the methods for both algorithms. 
 - Implement a file reader for both algorithms in order to include very large text files (I'm thinking of one that is 1 KB and one 10 MB) 
 
 

@@ -2,14 +2,30 @@
 
 ## Current scope
 
-Currently, the testing program only checks for the construction of the Node class and the correct decoding output of the Huffman-algorithm.
+- tests for Node class
+- tests for Huffman and LZW that ensure that after encoding the input, the decoded value equals to the original input
+- few tests for Huffman class ensuring individual methods are working correctly. This is still quite inadequate.
+- Need to figure out why the bytesize is different from the rootnodes' frequency for ASCII_256.txt, but correct for all other. 
 
-The current progress is very limited due to the lengthy process of trying to make the Java testing units to work. Ultimately, this was resolved by resorting to 4.12 JUnit. 
+## Current compression rates: 
 
-## Future additions
+Testing file : 100_KB_lorem.txt
+- Huffman compression rate : 53.287467125328746 %
+- LZW     compression rate : 17.70682293177068 %
 
-First and foremost would be to fix the output of the LZW-algorithm to match its input and create tests around that.
+ Testing file : 100_KB_repeating_lorem_ipsum.txt
+- Huffman compression rate : 74.89215098861594 %
+- LZW     compression rate : 1.5418414220091872 %
+ 
+ Testing file : 100_KB_cScSc.txt
+- Huffman compression rate : 93.7470625293747 %
+- LZW     compression rate : 1.108988910110899 %
+ 
+ Testing file : ASCII_256.txt
+- Huffman compression rate : 34607.08955223881 %
+- LZW     compression rate : 64.55223880597015 %
 
-Then tests for the auxiliary methods of the Huffman-algorithm such as the formation of the Huffman Tree and the generation of the codes for each character using the Huffman tree. 
+
+
 
 
