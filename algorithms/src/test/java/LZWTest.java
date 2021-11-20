@@ -10,11 +10,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.util.ArrayList; 
+
 /**
  *
  * @author limi
  */
 public class LZWTest {
+    
+    
+    LZW lzw; 
     
     public LZWTest() {
     }
@@ -29,15 +35,24 @@ public class LZWTest {
 
     @Before
     public void setUp() {
+        lzw = new LZW(); 
     }
 
     @After
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void correctDecodeWithASCII256() {
+        String input = "123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n" +
+"¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ";
+        
+        lzw.compress(input);           
+        ArrayList<Integer> encodedList = lzw.getEncodedList(); 
+        String decodedOutput = lzw.uncompress(encodedList);
+        
+        assertEquals(input, decodedOutput);
+    }
+    
+
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.nio.charset.StandardCharsets;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
 public class HuffmanTest {
     
     Huffman h; 
+    String input; 
     
     public HuffmanTest() {
     }
@@ -32,6 +34,10 @@ public class HuffmanTest {
     @Before
     public void setUp() {
         h = new Huffman(); 
+        input = "123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\n" +
+                "¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ";
+        
+        h.encode(input);
     }
 
     @After
@@ -39,13 +45,29 @@ public class HuffmanTest {
     }
     
     @Test
-    public void correctDecodeWithAllAlphabets() {
-        String input = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
-
-        h.encode(input);        
-        String output = h.decode(h.getRootNode(), h.getEncodedMessage(input));
-        assertEquals(input, output);
+    public void correctDecodeWithASCII256() {        
+        String decodeOutput = h.decode(h.getRootNode(), h.getEncodedMessage(input));
+        assertEquals(input, decodeOutput);
     }
     
+    // Tests if the rootNode has the same bytesize as the original input bytesize
+    // Currently fails the test...
+    @Test 
+    public void correctRootNodeFreq() {
+        byte[] byteArray = input.getBytes(StandardCharsets.UTF_8);
+        assertEquals(h.getRootNode().freq, byteArray.length); 
+        
+    }
+    
+    // Tests if the codeFreq hashmap contains the original byte size
+    @Test
+    public void correctCodeFreqValue() {
+        
+        int sum = 0; 
+        for (Integer value : h.getCodeFreq().values()) {
+            sum += value; 
+        }       
+        assertEquals(h.getRootNode().freq, sum); 
+    }
     
 }

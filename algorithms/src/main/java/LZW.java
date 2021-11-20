@@ -1,26 +1,14 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Arrays;
-
-import java.nio.charset.StandardCharsets;
-
 
 public class LZW {
+
+    ArrayList<Integer> encoded = new ArrayList<>(); 
 
     public void compress(String input) {
 
         int inputChar = 256;        
-     
         HashMap<String, Integer> hm = new HashMap<>();
-
-        //Will delete this part after optimization stages
-        
-        byte[] data = input.getBytes(StandardCharsets.UTF_8);
-
-        // System.out.println("String:  --->  " + input);
-        // System.out.println("Bytes:   ---> " + Arrays.toString(data));
-
-
         // Initialize the standard character HashMap for codes 0 to 256 
 
         for (int i = 0; i < 256; i++) {
@@ -29,21 +17,13 @@ public class LZW {
         }
         
         char[] inputArr = input.toCharArray(); 
-
         String currentString = Character.toString(inputArr[0]);
 
-        ArrayList<Integer> encoded = new ArrayList<>(); 
         ArrayList<String> stringList = new ArrayList<>(); 
 
-
-        //Right now it is stopping at length-2
-        //In order to fix this s needs to start at currentString = input[0]
-        //Then we need to make a checker where i != input.length()-1 in order to avoid NullPointExcept
-
-        // Look for reoccuring patterns. If patterns are occuring more than once
+        // Looks for reoccuring patterns. If patterns are occuring more than once
         // Assign a new code for the pattern by incrementing starting from 256
         // Then add new code to the existing HashMap 
-
         String nextChar = "";
 
         for (int i = 0; i < input.length(); i++) {
@@ -59,15 +39,15 @@ public class LZW {
             }
 
             else {
-                
                 hm.put(nextRead, inputChar);
-                
                 inputChar++; 
 
-                //if (!hm.containsKey(nextRead) && i == input.length()-1) currentString = nextChar;
-                if (i == input.length()-1)      currentString = nextChar;
+                if (i == input.length()-1) {
+                    currentString = nextChar;
+                }   
                 
                 encoded.add(hm.get(currentString));
+                
                 stringList.add(currentString);
                 currentString = nextChar; 
             }
@@ -75,14 +55,17 @@ public class LZW {
         
         // System.out.println("Encoded   --> " + encoded.toString());
         // System.out.println("StringList--> " + stringList.toString());
-
-        System.out.println("Original String:  --->  " + input);
-
-        uncompress(encoded);
-        
     }
 
-    public void uncompress(ArrayList<Integer> encoded ) {
+    public long outputByteSize() {
+        return encoded.size(); 
+    }
+
+    public ArrayList<Integer> getEncodedList() {
+        return encoded; 
+    }
+
+    public String uncompress(ArrayList<Integer> encoded) {
 
         HashMap<Integer, String> hm = new HashMap<>();
 
@@ -138,26 +121,21 @@ public class LZW {
             inputChar++; // starts from 256 now 257
             inputCode = nextCode;
         }
-        
-        System.out.println("Decoded  String:  --->  " + decodedString);
+        return decodedString; 
     }
 
 
     public static void main(String[] args) throws Exception {
         
-        LZW e = new LZW();
+        LZW lzw = new LZW();
         
-        // e.compress("A brown fox jumps quickly over the lazy dog");
-        //e.compress("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
-        //e.compress("1234568790");
+        // lzw.compress("A brown fox jumps quickly over the lazy dog");
+        // lzw.compress("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
+        // lzw.compress("1234568790");
 
-        e.compress("Lorem ipsum Lorem Lorem Lorem Lorem");
-        e.compress("1234");        
+        // lzw.compress("Lorem ipsum Lorem Lorem Lorem Lorem");
+        // lzw.compress("1234");        
         // Testing a known edge case
-        e.compress("cScSc"); 
-
-        
-
-        
+        // lzw.compress("cScSc"); 
     }   
 }
