@@ -4,7 +4,6 @@
 public class Node implements Comparable<Node> {
     String letter;
     int freq; 
-
     Node left;
     Node right;
 
@@ -25,6 +24,7 @@ public class Node implements Comparable<Node> {
     public int compareTo(Node other) {
         return this.freq-other.freq;
     }
+    
     @Override
     public String toString() {
         return this.letter + " : " + this.freq;

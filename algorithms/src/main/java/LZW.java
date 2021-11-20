@@ -17,8 +17,8 @@ public class LZW {
         
         byte[] data = input.getBytes(StandardCharsets.UTF_8);
 
-        System.out.println("String:  --->  " + input);
-        System.out.println("Bytes:   ---> " + Arrays.toString(data));
+        // System.out.println("String:  --->  " + input);
+        // System.out.println("Bytes:   ---> " + Arrays.toString(data));
 
 
         // Initialize the standard character HashMap for codes 0 to 256 
@@ -30,7 +30,7 @@ public class LZW {
         
         char[] inputArr = input.toCharArray(); 
 
-        String currentString = "";
+        String currentString = Character.toString(inputArr[0]);
 
         ArrayList<Integer> encoded = new ArrayList<>(); 
         ArrayList<String> stringList = new ArrayList<>(); 
@@ -44,21 +44,28 @@ public class LZW {
         // Assign a new code for the pattern by incrementing starting from 256
         // Then add new code to the existing HashMap 
 
+        String nextChar = "";
+
         for (int i = 0; i < input.length(); i++) {
 
-            String nextChar = Character.toString(inputArr[i]);
-            
+            if (i < input.length()-1) {
+                nextChar = Character.toString(inputArr[i+1]);
+            }
+
             String nextRead = currentString + nextChar; 
             
             if (hm.containsKey(nextRead)) {
                 currentString = nextRead; 
             }
-            
+
             else {
                 
                 hm.put(nextRead, inputChar);
                 
                 inputChar++; 
+
+                //if (!hm.containsKey(nextRead) && i == input.length()-1) currentString = nextChar;
+                if (i == input.length()-1)      currentString = nextChar;
                 
                 encoded.add(hm.get(currentString));
                 stringList.add(currentString);
@@ -66,8 +73,8 @@ public class LZW {
             }
         }
         
-        System.out.println("Encoded   --> " + encoded.toString());
-        System.out.println("StringList--> " + stringList.toString());
+        // System.out.println("Encoded   --> " + encoded.toString());
+        // System.out.println("StringList--> " + stringList.toString());
 
         System.out.println("Original String:  --->  " + input);
 
@@ -142,11 +149,15 @@ public class LZW {
         
         // e.compress("A brown fox jumps quickly over the lazy dog");
         //e.compress("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
+        //e.compress("1234568790");
 
-        e.compress("Lorem ipsum Lorem Lorem Lorem Lorem ipsum");
-    
+        e.compress("Lorem ipsum Lorem Lorem Lorem Lorem");
+        e.compress("1234");        
         // Testing a known edge case
-        // e.compress("cScSc"); 
+        e.compress("cScSc"); 
+
+        
+
         
     }   
 }

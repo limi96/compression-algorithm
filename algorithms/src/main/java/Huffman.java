@@ -1,15 +1,15 @@
 import java.util.PriorityQueue;
 import java.util.HashMap;
 
-public class Huffman {
 
+
+public class Huffman {
     //Initialize data structures
 
-    HashMap<String, String> HuffmanDict = new HashMap<>();
-    HashMap<String, String> HuffmanDictReverse = new HashMap<>();
+    HashMap<String, String> huffmanDict = new HashMap<>();
+    HashMap<String, String> huffmanDictReverse = new HashMap<>();
     Node rootNode = null;
     String encodedMessage = "";
-
 
     public void encode(String input) {
 
@@ -69,8 +69,6 @@ public class Huffman {
         
         String decodedOutput = decode(rootNode, correctEncode(input)); 
 
-
-
         System.out.println("Original          : "  + input);
         System.out.println("Decoded           : "  + decodedOutput);
         
@@ -82,7 +80,7 @@ public class Huffman {
         String correctMessage = ""; 
     
         for (int i = 0; i < input.length(); i++) { 
-            correctMessage += HuffmanDictReverse.get("" + input.charAt(i));
+            correctMessage += huffmanDictReverse.get("" + input.charAt(i));
         }
         
         return correctMessage; 
@@ -108,7 +106,6 @@ public class Huffman {
             //Then return back to the root 
             if (currentNode.left == null && currentNode.right == null && currentNode.letter != null) {
                 decodedMessage += currentNode.letter;
-                
                 currentNode = rootNode; 
             }
    
@@ -130,11 +127,11 @@ public class Huffman {
             //System.out.println(currentNode.letter + " : " + code);
 
             //required for encoding
-            HuffmanDict.put(code, currentNode.letter);
+            huffmanDict.put(code, currentNode.letter);
 
             //required for decoding
             //Should be a better way perhaps without the use of this HashMap. This is taking memory.
-            HuffmanDictReverse.put(currentNode.letter, code); 
+            huffmanDictReverse.put(currentNode.letter, code); 
 
             encodedMessage += code;
             return;
@@ -144,11 +141,20 @@ public class Huffman {
         createTreeCodes(currentNode.right, code + "1");
     }
 
+
     public static void main(String[] args) {
         
         Huffman h = new Huffman();
         //h.encode("A brown fox jumps quickly over the lazy dog");
-        h.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
+        //h.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
 
+        FileReader inputReader = new FileReader(); 
+
+        long alku1 = System.nanoTime();
+
+        h.encode(inputReader.fileReaderOutput());
+        
+        long loppu1 = System.nanoTime();
+        System.out.println("Time : " + (loppu1-alku1)/1E6);
     }    
 }
