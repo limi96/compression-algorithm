@@ -28,9 +28,8 @@ public class CompressionBenchmark {
         //Result
         System.out.println();
         System.out.println("Testing file : " + testString);
-        System.out.println("Huffman compression rate : " + compRateHuffman + " %");
-        System.out.println("LZW     compression rate : " + compRateLZW + " %");
-        
+        System.out.println("Huffman compression rate : " + String.format("%.2f",compRateHuffman) + " %");
+        System.out.println("LZW     compression rate : " + String.format("%.2f",compRateLZW) + " %");
     }
     
 }

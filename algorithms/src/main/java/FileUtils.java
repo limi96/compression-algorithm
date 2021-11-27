@@ -1,5 +1,4 @@
 
-import java.io.FileNotFoundException;
 import java.io.File; 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,9 +11,9 @@ public class FileUtils {
     public String fileReaderOutput(String fileName) {
         
         StringBuffer inputBuffer = new StringBuffer(); 
-        File testing = new File("./test_files/" + fileName);
+        File testing = new File("algorithms/test_files/" + fileName);
         String filePath = testing.getAbsolutePath();
-
+        
         try {
             Files.lines(Paths.get(filePath)).forEach(newLine -> inputBuffer.append(newLine));
         } catch (Exception e) {
