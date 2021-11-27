@@ -38,14 +38,10 @@ public class PerformanceBenchmark {
         for (Double result : resultList) {
             sum+=result; 
         }
-        System.out.println("Method        : Huffman");
         System.out.println("Encoding file : " + testString);
+        System.out.println("Method        : Huffman");
         System.out.println("Time taken    : " + String.format("%.2f",sum/(reps-2)) + " ms");
         System.out.println();
-    }
-
-    public static void performEncode() {
-
     }
     public static void main(String[] args) {
         encodingTime("100_KB_lorem.txt");
