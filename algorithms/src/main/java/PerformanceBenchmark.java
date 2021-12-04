@@ -7,6 +7,7 @@ public class PerformanceBenchmark {
 
     public static void encodingTime(String testString) {
         Huffman h = new Huffman();
+        LZW lzw = new LZW(); 
 
         FileUtils fileReader = new FileUtils();
         String testInputString = fileReader.fileReaderOutput(testString);
@@ -20,7 +21,10 @@ public class PerformanceBenchmark {
 
         for (int i = 0; i < reps; i++) { 
             long start = System.nanoTime();
-            h.encode(testInputString);
+
+            // h.encode(testInputString);
+            lzw.compress(testInputString);
+            
             long end = System.nanoTime(); 
             
             double result = (end-start)/1E6;
