@@ -26,5 +26,6 @@ File testing = new File("test_files/" + fileName);
 
 - [week 3](https://github.com/limi96/compression-algorithm/blob/master/Documentation/weekly%20reports/week%203.md)
 
-
 - [week 4](https://github.com/limi96/compression-algorithm/blob/master/Documentation/weekly%20reports/week%204.md)
+
+- [week 5](https://github.com/limi96/compression-algorithm/blob/master/Documentation/weekly%20reports/week%205.md)
