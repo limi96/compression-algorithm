@@ -5,7 +5,7 @@
 - Huffman works
 - LZW works
 - Compression Benchmark
-- Performance Benchmark (only for Huffman) 
+- Performance Benchmark 
 
 ## Current limitations
 
@@ -13,6 +13,8 @@
 - No Performance comparison between Huffman and LZW
 - No UI
 - No large tests (over 100 KB)
+- No serialization of the Node Tree from Huffman encoding
+- Need to implement File Outputter. 
 
 ## Inputs as well as time and space complexity
 

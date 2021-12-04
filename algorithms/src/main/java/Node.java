@@ -17,6 +17,23 @@ public class Node implements Comparable<Node> {
     public Node(String letter, int freq) {
         this.letter = letter; 
         this.freq = freq; 
+        this.left = null; 
+        this.right = null; 
+    }
+
+    public Node(String letter) {
+        this.letter = letter; 
+        this.freq = -100000; 
+        this.left = null; 
+        this.right = null; 
+    }
+
+    public void setLeftNode(Node leftNode) {
+        this.left = leftNode; 
+    }
+
+    public void setRightNode(Node rightNode) {
+        this.right = rightNode; 
     }
 
     @Override

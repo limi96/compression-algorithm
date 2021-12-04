@@ -2,6 +2,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.PriorityQueue;
 import java.util.HashMap;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+
 public class Huffman {
     //Initialize data structures
 
@@ -11,10 +14,63 @@ public class Huffman {
     public static Node rootNode = null;
     public static String encodedMessage = "";
 
+
+    // Trying to develop a method to serialize the resulting Node Tree from encoding
+    // Currently unable to handle nullpointers 
+    public static void testingSerializingNodeTree() {
+        Node node = new Node("a"); 
+        node.setLeftNode(new Node("b"));
+        node.left.setLeftNode(new Node("c"));
+        node.setRightNode(new Node("d"));
+        node.left.left.setLeftNode(new Node("e"));
+
+    //      a
+    //     / \
+    //     b  d
+    //    / \
+    //   c
+    //  /
+    //  e
+    // a, b, d, c, null, null, null, e, null, null, null
+
+        System.out.println("[a, b, d, c, null, null, null, c, null, e, null]");
+        System.out.println(serialize(node).toString());
+    }
+
+    public static ArrayList<String> serialize(Node root) {
+        ArrayList<String> result = new ArrayList<>();
+
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+
+        queue.addFirst(root);
+        
+        while(!queue.isEmpty()) {
+
+            Node first = null; 
+
+            if (queue.getFirst() != null) {
+                first = queue.pollFirst(); 
+            }
+
+            if (first == null) { result.add(null);}
+
+            else {
+                result.add(first.letter);
+
+                if (first.left == null) queue.add(null);
+                else queue.add(first.left);
+                if (first.right == null) queue.add(null);
+                else queue.add(first.right);
+            }
+        }
+
+        return result; 
+    }
+
+
     public HashMap<String, String> getHuffmanDict() {
         return huffmanDict; 
     }
-
     public void encode(String input) {
 
         //Initialize data structures 
@@ -141,13 +197,10 @@ public class Huffman {
     }
 
     public long outputByteSize() {
-
         long size = 0; 
-
         for (String code : codeFreq.keySet()) {
             size += code.length()*codeFreq.get(code);
         }
-
         return size/8; 
     }
 

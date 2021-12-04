@@ -1,4 +1,7 @@
 Node.class
 Main.class
 Huffman.class
+FileUtils.class
+PerformanceBenchmark.class
+CompressionBenchmark.class
 LZW.class
