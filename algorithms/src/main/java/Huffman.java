@@ -2,8 +2,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.PriorityQueue;
 import java.util.HashMap;
 
-import java.util.ArrayDeque;
+import java.util.List; 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Huffman {
     //Initialize data structures
@@ -32,40 +33,120 @@ public class Huffman {
     //  /
     //  e
     // a, b, d, c, null, null, null, e, null, null, null
+        
+        Huffman h = new Huffman(); 
 
-        System.out.println("[a, b, d, c, null, null, null, c, null, e, null]");
-        System.out.println(serialize(node).toString());
+        // testSerialization(node);
+
+        h.encode("OMENAahfalsjflqjewölkfjwqölgejqölrwjölqejrölgqjreölgjeqölrjgqölejgrölqjreglqjreg");
+        testSerialization(rootNode);
+
     }
 
-    public static ArrayList<String> serialize(Node root) {
+    public static void testSerialization(Node node) {
+
+        ArrayList<String> serializedInput = serializeBFS(node);
+
+        Node deserialized = deserializeBFS(serializedInput);
+
+        // System.out.println(deserialized.right.left.left); // d gets two null leaves...
+        // System.out.println(deserialized.right.left.left.left); //correctly returns NullPointer
+
+        
+        
+        ArrayList<String> reserialized = serializeBFS(deserialized); 
+        List<String> removeExtraNulls = reserialized.subList(0,serializedInput.size());
+
+        for (int i = 0; i < serializedInput.size(); i++) { 
+            System.out.println(serializedInput.get(i) + " : " + removeExtraNulls.get(i));
+        }
+
+        // System.out.println("First  : " + serializeBFS(node).toString());
+        // System.out.println("Second : " + reserialized.subList(0,serializedInput.size()));
+        
+        // System.out.println("Second : " + serializeBFS(deserialized).toString());
+    }
+
+    public static Node deserializeBFS(ArrayList<String> serializedInput) {
+        
+        LinkedList<Node> queue = new LinkedList<>();
+        //Root node
+        Node node = new Node(serializedInput.get(0));
+        int index = 1; 
+
+        queue.add(node);
+
+        while (!queue.isEmpty() && index < serializedInput.size()) {
+
+            Node first = queue.pollFirst();         
+            // System.out.println("FIRST :" + first);
+
+            if (first.letter != null) {        
+                // System.out.println("LEFT  :" + serializedInput.get(index));
+
+                if (serializedInput != null) {
+                    Node newLeftNode = new Node(serializedInput.get(index));
+                    first.setLeftNode(newLeftNode);
+                    queue.addLast(newLeftNode);
+                }
+
+            }
+
+            index++; 
+
+            if (first.letter != null) {
+                // System.out.println("RIGHT :" + serializedInput.get(index));
+
+                if (serializedInput != null) {
+                    Node newRightNode = new Node(serializedInput.get(index));
+                    first.setRightNode(newRightNode);
+                    queue.addLast(newRightNode);
+                }
+            }
+
+            index++; 
+        }    
+        return node;
+    }
+
+    public static ArrayList<String> serializeBFS(Node root) {
         ArrayList<String> result = new ArrayList<>();
 
-        ArrayDeque<Node> queue = new ArrayDeque<>();
+        //Using LinkedList, ArrayDeque doesn't allow the insertion of nulls
+        LinkedList<Node> queue = new LinkedList<>();
 
         queue.addFirst(root);
         
         while(!queue.isEmpty()) {
 
-            Node first = null; 
-
-            if (queue.getFirst() != null) {
-                first = queue.pollFirst(); 
-            }
+            Node first = queue.pollFirst(); 
 
             if (first == null) { result.add(null);}
-
+        
             else {
-                result.add(first.letter);
-
-                if (first.left == null) queue.add(null);
-                else queue.add(first.left);
-                if (first.right == null) queue.add(null);
-                else queue.add(first.right);
+                result.add(first.getLetter());
+                
+                queue.addLast(first.getLeftNode());
+                queue.addLast(first.getRightNode());
             }
         }
 
         return result; 
     }
+
+    public static void main(String[] args) {
+        
+        Huffman h = new Huffman();
+        //h.encode("A brown fox jumps quickly over the lazy dog");
+        //h.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
+        testingSerializingNodeTree();
+    }
+
+
+
+
+
+
 
 
     public HashMap<String, String> getHuffmanDict() {
@@ -204,11 +285,6 @@ public class Huffman {
         return size/8; 
     }
 
-    public static void main(String[] args) {
-        
-        Huffman h = new Huffman();
-        //h.encode("A brown fox jumps quickly over the lazy dog");
-        //h.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
-    }
+
 }    
 

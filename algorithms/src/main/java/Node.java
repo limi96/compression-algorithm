@@ -28,12 +28,28 @@ public class Node implements Comparable<Node> {
         this.right = null; 
     }
 
+    public int getFreq() {
+        return this.freq; 
+    }
+
+    public String getLetter() {
+        return this.letter; 
+    }
+
     public void setLeftNode(Node leftNode) {
         this.left = leftNode; 
     }
 
     public void setRightNode(Node rightNode) {
         this.right = rightNode; 
+    }
+
+    public Node getLeftNode() {
+        return this.left; 
+    }
+
+    public Node getRightNode() {
+        return this.right; 
     }
 
     @Override
