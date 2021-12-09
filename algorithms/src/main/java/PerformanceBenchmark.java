@@ -111,10 +111,10 @@ public class PerformanceBenchmark {
     }
 
     public static void main(String[] args) {
-        encodingTime("100_KB_repeating_lorem_ipsum.txt", true, true);
         encodingTime("100_KB_lorem.txt", true, true);
-        encodingTime("100_KB_cScSc.txt", true, true);
-        encodingTime("ASCII_256.txt", true, true);
+        // encodingTime("100_KB_repeating_lorem_ipsum.txt", true, true);
+        // encodingTime("100_KB_cScSc.txt", true, true);
+        // encodingTime("ASCII_256.txt", true, true);
         // edgeCaseLZW(); 
     }
 }

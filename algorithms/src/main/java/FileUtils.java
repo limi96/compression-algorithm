@@ -27,7 +27,7 @@ public class FileUtils {
     }
 
 
-    public String fileReaderOutput(String fileName) {
+    public static String fileReaderOutput(String fileName) {
         StringBuffer inputBuffer = new StringBuffer(); 
         File testing = new File("test_files/" + fileName);
         String filePath = testing.getAbsolutePath();
