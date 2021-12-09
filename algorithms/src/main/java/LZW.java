@@ -129,7 +129,7 @@ public class LZW {
         
         LZW lzw = new LZW();
         
-        // lzw.compress("A brown fox jumps quickly over the lazy dog");
+        lzw.compress("A brown fox jumps quickly over the lazy dog");
         // lzw.compress("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
         // lzw.compress("1234568790");
 

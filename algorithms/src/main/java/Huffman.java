@@ -1,10 +1,17 @@
-import java.nio.charset.StandardCharsets;
-import java.util.PriorityQueue;
-import java.util.HashMap;
 
-import java.util.List; 
+import java.util.PriorityQueue;
+
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 public class Huffman {
     //Initialize data structures
@@ -15,10 +22,7 @@ public class Huffman {
     public static Node rootNode = null;
     public static String encodedMessage = "";
 
-
-    // Trying to develop a method to serialize the resulting Node Tree from encoding
-    // Currently unable to handle nullpointers 
-    public static void testingSerializingNodeTree() {
+    public static void testingSerializingNodeTree() throws java.io.IOException {
         Node node = new Node("a"); 
         node.setLeftNode(new Node("b"));
         node.left.setLeftNode(new Node("c"));
@@ -35,73 +39,87 @@ public class Huffman {
     // a, b, d, c, null, null, null, e, null, null, null
         
         Huffman h = new Huffman(); 
-
         // testSerialization(node);
 
-        h.encode("OMENAahfalsjflqjewölkfjwqölgejqölrwjölqejrölgqjreölgjeqölrjgqölejgrölqjreglqjreg");
+        // rootNode is the resulting Huffman Node Tree after encoding
+ 
+        h.encode("ab ba ÄÄÖÖpowfälwqkeffadöl cscscsjdflkasjdf   asd fa sdf a sfdÅÄ*");
         testSerialization(rootNode);
-
     }
 
-    public static void testSerialization(Node node) {
+    public static void testSerialization(Node node) throws java.io.IOException {    
+        byte[] bytes = serializeToBytes(node);
+        FileUtils.writeFile("testing", bytes);
+        byte[] test = FileUtils.readFile("testing.hf");
+    }
 
-        ArrayList<String> serializedInput = serializeBFS(node);
+    public static byte[] serializeToBytes(Node root) throws java.io.IOException {
 
-        Node deserialized = deserializeBFS(serializedInput);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DataOutputStream dataStream = new DataOutputStream(byteOutput);
 
-        // System.out.println(deserialized.right.left.left); // d gets two null leaves...
-        // System.out.println(deserialized.right.left.left.left); //correctly returns NullPointer
+        ArrayList<String> serializedInput = serializeBFS(root);
 
-        
-        
-        ArrayList<String> reserialized = serializeBFS(deserialized); 
-        List<String> removeExtraNulls = reserialized.subList(0,serializedInput.size());
-
-        for (int i = 0; i < serializedInput.size(); i++) { 
-            System.out.println(serializedInput.get(i) + " : " + removeExtraNulls.get(i));
+        for (String input : serializedInput) {
+            dataStream.writeUTF(input);
         }
-
-        // System.out.println("First  : " + serializeBFS(node).toString());
-        // System.out.println("Second : " + reserialized.subList(0,serializedInput.size()));
         
-        // System.out.println("Second : " + serializeBFS(deserialized).toString());
+        return byteOutput.toByteArray();
     }
+
+    public static Node deserializeFromBytes(byte[] input) throws java.io.IOException {
+        
+        ByteArrayInputStream byteInput = new ByteArrayInputStream(input);
+        DataInputStream dataStream = new DataInputStream(byteInput);
+        ArrayList<String> serializedInput = new ArrayList<>();
+    
+        while (dataStream.available() != 0) {
+            String current = dataStream.readUTF();
+            
+            if (current.equals("null")) {
+                serializedInput.add("null");
+            }
+            else {
+                serializedInput.add(current);
+            }
+        }
+        
+        Node node = deserializeBFS(serializedInput);
+        return node; 
+    }
+
+
 
     public static Node deserializeBFS(ArrayList<String> serializedInput) {
         
         LinkedList<Node> queue = new LinkedList<>();
         //Root node
         Node node = new Node(serializedInput.get(0));
+        
+        queue.add(node);
         int index = 1; 
 
-        queue.add(node);
+        while (!queue.isEmpty()) {
+            Node first = queue.pollFirst();  
 
-        while (!queue.isEmpty() && index < serializedInput.size()) {
-
-            Node first = queue.pollFirst();         
-            // System.out.println("FIRST :" + first);
-
-            if (first.letter != null) {        
-                // System.out.println("LEFT  :" + serializedInput.get(index));
-
-                if (serializedInput != null) {
-                    Node newLeftNode = new Node(serializedInput.get(index));
-                    first.setLeftNode(newLeftNode);
-                    queue.addLast(newLeftNode);
-                }
-
+            if (!serializedInput.get(index).equals("null")) {        
+                Node newLeftNode = new Node(serializedInput.get(index));
+                first.setLeftNode(newLeftNode);
+                queue.addLast(newLeftNode);
+            }
+            else {
+                first.setLeftNode(null);
             }
 
             index++; 
 
-            if (first.letter != null) {
-                // System.out.println("RIGHT :" + serializedInput.get(index));
-
-                if (serializedInput != null) {
-                    Node newRightNode = new Node(serializedInput.get(index));
-                    first.setRightNode(newRightNode);
-                    queue.addLast(newRightNode);
-                }
+            if (!serializedInput.get(index).equals("null")) {
+                Node newRightNode = new Node(serializedInput.get(index));
+                first.setRightNode(newRightNode);
+                queue.addLast(newRightNode);
+            }
+            else {
+                first.setRightNode(null);
             }
 
             index++; 
@@ -111,21 +129,17 @@ public class Huffman {
 
     public static ArrayList<String> serializeBFS(Node root) {
         ArrayList<String> result = new ArrayList<>();
-
-        //Using LinkedList, ArrayDeque doesn't allow the insertion of nulls
         LinkedList<Node> queue = new LinkedList<>();
 
         queue.addFirst(root);
         
         while(!queue.isEmpty()) {
-
             Node first = queue.pollFirst(); 
-
-            if (first == null) { result.add(null);}
-        
+            if (first == null || first.letter.equals("null")) { 
+                result.add("null");
+            }
             else {
-                result.add(first.getLetter());
-                
+                result.add(first.getLetter());   
                 queue.addLast(first.getLeftNode());
                 queue.addLast(first.getRightNode());
             }
@@ -134,17 +148,10 @@ public class Huffman {
         return result; 
     }
 
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws java.io.IOException {
         Huffman h = new Huffman();
-        //h.encode("A brown fox jumps quickly over the lazy dog");
-        //h.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
         testingSerializingNodeTree();
     }
-
-
-
-
 
 
 
