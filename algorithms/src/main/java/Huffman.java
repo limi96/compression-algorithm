@@ -20,62 +20,46 @@ public class Huffman {
     public static HashMap<String, String> huffmanDictReverse = new HashMap<>();
     public static HashMap<String, Integer> codeFreq = new HashMap<>(); 
     public static Node rootNode = null;
-    public static String encodedMessage = "";
-
-    public static int treeLengthFromBytes; 
 
     public static void testingSerializingNodeTree() throws java.io.IOException {
-        Node node = new Node("a"); 
-        node.setLeftNode(new Node("b"));
-        node.left.setLeftNode(new Node("c"));
-        node.setRightNode(new Node("d"));
-        node.left.left.setLeftNode(new Node("e"));
         
         Huffman h = new Huffman(); 
         
-        // testSerialization(node);
         // rootNode is the resulting Huffman Node Tree after encoding
 
-        String message = "ab ba ÄÄÖÖpowfälwqkeffadöl cscscsjdflkasjdf   asd fa sdf a sfdÅÄ*";
-        // message = "öapogggggeqjfg uGJÖdfmDNV-LNDkFLVH6019243801923840912384019238410293841093284SFäpvjÄGH  053YH    3RUTNYRT   JRÄGJRW";
-        // message = "My balls are dry and my butt is hurt";
-        // message = "abajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecdabajölfjqölgjewlfjqwlejfqwöejfqkecd";
-        message = FileUtils.fileReaderOutput("100_KB_lorem.txt");
+        // String message = "ab ba ÄÄÖÖpowfälwqkeffadöl cscscsjdflkasjdf   asd fa sdf a sfdÅÄ*";
+        String message = FileUtils.fileReaderOutput("100_KB_lorem.txt");
 
         long start = System.currentTimeMillis();
-        String testEncodedMessage = h.encode(message);
+
+        //create EncodedFile
+        String encodedMessage = h.encode(message);
         
         //Combine treeData with encodedMessage Data
-        byte[] messageData = encodedMessageToBytes(testEncodedMessage);        
+        byte[] messageData = encodedMessageToBytes(encodedMessage);        
         byte[] treeData = serializeToBytes(rootNode);
         byte[] outputBytes = combineTreeDataWithMessage(treeData, messageData);
 
+        //Write File
         FileUtils.writeFile("huffmanTest", outputBytes);
         
+        // Read File 
         byte[] inputBytes = FileUtils.readFile("huffmanTest.hf");
         byte[] treeLengthBytes = Arrays.copyOfRange(inputBytes, 0, 4);
         
         ByteBuffer bufferForTreeLength = ByteBuffer.wrap(treeLengthBytes);
         int treeLength = bufferForTreeLength.getInt();
-        
-        // System.out.println(testEncodedMessage);
-        System.out.println("Tree Length actually : " + treeLength);
-        System.out.println(Arrays.toString(treeLengthBytes));
-    
-        // byte[] inputForDeserialization = Arrays.copyOfRange(inputBytes, 4, inputBytes.length-2);
-        byte[] inputForDeserialization = Arrays.copyOfRange(inputBytes, 4, 4+treeLength);
-        Node testNode = deserializeFromBytes(inputForDeserialization);
 
-        
-        // byte[] messageBytes = Arrays.copyOfRange(inputBytes, 4+treeLengthFromBytes, inputBytes.length);
-        byte[] messageBytes = Arrays.copyOfRange(inputBytes, inputBytes.length-messageData.length, inputBytes.length);
+        byte[] inputForDeserialization = Arrays.copyOfRange(inputBytes, 4, 4+treeLength);
+        Node inputNode = deserializeFromBytes(inputForDeserialization);
+
+        byte[] messageBytes = Arrays.copyOfRange(inputBytes, 4+treeLength, inputBytes.length);
 
         String testMessage = new String(messageBytes, StandardCharsets.UTF_8);
         // System.out.println("testmessage            : " + testMessage);
         // System.out.println("decoded Output         : " + h.decode(testNode, testMessage));
 
-        String output = h.decode(testNode, testMessage); 
-
+        String output = h.decode(inputNode, testMessage); 
         System.out.println("OUTCOME : " + message.equals(output));
 
         long end = System.currentTimeMillis();
@@ -278,7 +262,7 @@ public class Huffman {
             huffmanDictReverse.put(currentNode.letter, code); 
             codeFreq.put(code, currentNode.freq); 
 
-            encodedMessage += code;
+            // encodedMessage += code;
             return;
         }
 
@@ -292,7 +276,6 @@ public class Huffman {
     public String constructCodedMessage(String input) {
 
         StringBuilder messageBuilder = new StringBuilder(); 
-        
         long start = System.currentTimeMillis();
         for (int i = 0; i < input.length(); i++) { 
             messageBuilder.append(huffmanDictReverse.get("" + input.charAt(i)));
@@ -301,6 +284,7 @@ public class Huffman {
 
         // System.out.println("Time taken : " + (end-start)/1E3 + " s");
         return new String(messageBuilder); 
+    
     }
 
 
