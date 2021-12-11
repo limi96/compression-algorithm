@@ -42,7 +42,7 @@ public class FileUtils {
         return stringInput; 
     }
     
-    public byte[] getByteArray() {
+    public static byte[] getByteArray() {
         byteArray = stringInput.getBytes(StandardCharsets.UTF_8);
         return byteArray; 
     }
