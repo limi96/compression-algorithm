@@ -47,8 +47,60 @@ public class FileUtils {
         return byteArray; 
     }
 
+    public static byte[] bitsToByte(String input) {
+        int length = input.length();
+        byte[] bytes = new byte[(int) Math.ceil(length / 8.0)+1];
+        int byteCounter = 1;
+        int bitPointer = 0;
+        int currentByte = 0;
 
+        while (bitPointer < length) {
+            currentByte = currentByte * 2;
+            if (input.charAt(bitPointer) == '1') {
+                currentByte++;
+            }
+            bitPointer++;
+            if (bitPointer % 8 == 0 || bitPointer == length) {
+                if (bitPointer % 8 != 0) {
+                    for (int i = 0; i < (8 - length % 8); i++) {
+                        currentByte = currentByte * 2;
+                    }
+                }
+                bytes[byteCounter] = (byte) currentByte;
+                currentByte = 0;
+                byteCounter++;
+            }
+        }
 
+        int lastByteLength = (bitPointer) % 8; 
+        bytes[0] = (byte) (lastByteLength); 
+        
+        return bytes;
+    }
+    
+    public static String bytesToBits(byte[] bytes ) {
+
+        StringBuilder bitBuilder = new StringBuilder(); 
+
+        int lastLength = bytes[0];
+        int bitLength = 8; 
+                   
+        for (int i = 1; i < bytes.length; i++) {
+
+            byte b = bytes[i];
+        
+            if (i == bytes.length-1) {
+                bitLength = lastLength == 0 ? 8 : lastLength; 
+            }
+
+            for (int j = 7; j >= 8-bitLength; j--) {  
+                bitBuilder.append((b >> j) & 1);
+            }        
+            
+        }
+                
+        return new String(bitBuilder);
+    }
     public static void main(String[] args) {
         File testing = new File("./" + "moi");
         String filePath = testing.getAbsolutePath();

@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-import java.nio.charset.StandardCharsets;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -59,14 +58,14 @@ public class HuffmanTest {
     // }
     
     // Tests if the codeFreq hashmap contains the original byte size
-    @Test
-    public void correctCodeFreqValue() {
+    // @Test
+    // public void correctCodeFreqValue() {
         
-        int sum = 0; 
-        for (Integer value : h.getCodeFreq().values()) {
-            sum += value; 
-        }       
-        assertEquals(h.getRootNode().freq, sum); 
-    }
+    //     int sum = 0; 
+    //     for (Integer value : h.getCodeFreq().values()) {
+    //         sum += value; 
+    //     }       
+    //     assertEquals(h.getRootNode().freq, sum); 
+    // }
     
 }
