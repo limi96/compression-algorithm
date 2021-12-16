@@ -1,7 +1,8 @@
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/PerformanceBenchmark.java
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/CompressionBenchmark.java
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/LZW.java
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/FileUtils.java
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/Node.java
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/Main.java
-/home/limi/Documents/compression-algorithm/algorithms/src/main/java/Huffman.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/Huffman.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/Node.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/PerformanceBenchmark.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/FileUtils.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/Main.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/benchmarks/CompressionBenchmark.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/LZW.java
+/home/limi/Documents/compression-algorithm/algorithms/src/main/java/algorithms/utils/HuffmanUtils.java

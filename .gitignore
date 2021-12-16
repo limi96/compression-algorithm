@@ -5,4 +5,11 @@
 **/compression-algorithm/algorithms/.project/**
 **/compression-algorithm/algorithms/.vscode/**
 **/compression-algorithm/gradle/**
+algorithms/target
+algorithms/.classpath
+algorithms/.settings
+algorithms/nbproject
+algorithms/.project
+algorithms/.vscode/
+.gradle
 

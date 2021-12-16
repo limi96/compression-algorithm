@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList; 
+import algorithms.LZW;
 
 public class lzwTest {
     

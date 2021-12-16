@@ -1,11 +1,16 @@
+package algorithms; 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.lang.Math; 
 
 public class LZW {
 
     public static ArrayList<Integer> encoded = new ArrayList<>(); 
     public static int bitLength = 12; 
+    public static int maxDictSize = (int) Math.pow(2, bitLength); 
+    // public static int maxDictSize = Integer.MAX_VALUE; 
 
     // Initialize the standard character HashMap for codes 0 to 256 
     public static HashMap<String, Integer> createCompressDictionary() {
@@ -55,7 +60,7 @@ public class LZW {
 
             else {
 
-                if (inputChar < 4096) {
+                if (inputChar < maxDictSize) {
                     dict.put(nextRead, inputChar);
                     inputChar++; 
                 }
@@ -120,7 +125,7 @@ public class LZW {
             // Form a letter combination
             previousCharacter = "" + currentString.charAt(0);
             
-            if (inputChar < 4096) {
+            if (inputChar < maxDictSize) {
                 //Put the letter combination into the dictionary
                 //This will enable reusing letter combinations that have been encountered before
                 dict.put(inputChar, dict.get(inputCode) + previousCharacter);

@@ -1,3 +1,4 @@
+package algorithms; 
 import java.util.Random;
 
 public class Main {

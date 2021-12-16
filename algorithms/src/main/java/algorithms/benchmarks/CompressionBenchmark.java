@@ -1,3 +1,9 @@
+package algorithms.benchmarks;
+
+import algorithms.FileUtils;
+import algorithms.Huffman;
+import algorithms.LZW;
+
 public class CompressionBenchmark {
 
     public static void huffmanTest(String fileName) throws java.io.IOException {
@@ -77,15 +83,15 @@ public class CompressionBenchmark {
         // huffmanTest("ASCII_256.txt");
         // huffmanTest("Large Lorem.txt");
     
-        // lzwTest("100_KB_lorem.txt");
         // lzwTest("100_KB_repeating_lorem_ipsum.txt");
         // lzwTest("100_KB_cScSc.txt");
         // lzwTest("ASCII_256.txt");
+        
+        long start = System.nanoTime(); 
+        lzwTest("100_KB_lorem.txt");
         // lzwTest("Large Lorem.txt");
-
-        // long start = System.nanoTime(); 
-        // long end = System.nanoTime();
-        // System.out.println("Time taken: " + (end-start)/1E9 + " s");
+        long end = System.nanoTime();
+        System.out.println("Time taken: " + (end-start)/1E9 + " s");
     }
 
 

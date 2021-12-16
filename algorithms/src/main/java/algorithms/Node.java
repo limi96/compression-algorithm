@@ -1,11 +1,11 @@
+package algorithms; 
 
 //Simple node datastructure for the PriorityQueue and Huffman Tree
-
 public class Node implements Comparable<Node> {
-    String letter;
-    int freq; 
-    Node left;
-    Node right;
+    public String letter;
+    public int freq; 
+    public Node left;
+    public Node right;
 
     public Node(String letter, int freq, Node left, Node right) {
         this.letter = letter; 
