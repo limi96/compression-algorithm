@@ -29,15 +29,15 @@ public class Huffman {
     public static void main(String[] args) throws java.io.IOException {
         Huffman h = new Huffman(); 
         String input = ""; 
-        // message = "abckjlaksdjflakds";
-        // message = FileUtils.fileReaderOutput("100_KB_lorem.txt");
-        // message = FileUtils.fileReaderOutput("100_KB_repeating_lorem_ipsum.txt");
+        // input = "abckjlaksdjflakds";
+        input = FileUtils.fileReaderOutput("100_KB_lorem.txt");
+        // input = FileUtils.fileReaderOutput("100_KB_repeating_lorem_ipsum.txt");
 
         long start = System.currentTimeMillis();
 
         //create EncodedFile
         encodedMessage = h.encode(input);
-        writeEncodedFile("huffmanTest");
+        writeEncodedFile("huffmanTest.hf");
         //Reset encodedMessage
         encodedMessage = ""; 
         //Read file. EncodedMessage gets updated now
@@ -57,7 +57,6 @@ public class Huffman {
         return messageData; 
     }
     
-
     public static void writeEncodedFile(String outputName) throws java.io.IOException {
         
         byte[] messageData = FileUtils.bitsToByte(encodedMessage);        
@@ -95,7 +94,7 @@ public class Huffman {
         }
         long end = System.currentTimeMillis();
 
-        // System.out.println("Time taken : " + (end-start)/1E3 + " s");
+        System.out.println("Time taken : " + (end-start)/1E3 + " s");
         return new String(messageBuilder); 
     }
 
@@ -173,7 +172,6 @@ public class Huffman {
         return buffer.array();
     }
 
-
     public static Node deserializeFromBytes(byte[] input) throws java.io.IOException {
         
         ByteArrayInputStream byteInput = new ByteArrayInputStream(input);
@@ -194,7 +192,6 @@ public class Huffman {
         Node node = deserializeBFS(serializedInput);
         return node; 
     }
-
 
     public static Node deserializeBFS(ArrayList<String> serializedInput) {
         
@@ -252,8 +249,6 @@ public class Huffman {
 
         return result; 
     }
-
-
 
     public HashMap<String, String> getHuffmanDict() {
         return huffmanCodes; 

@@ -14,7 +14,7 @@ public class FileUtils {
     
 
     public static void writeFile(String outputName, byte[] bytes) throws java.io.IOException {
-        FileOutputStream outputStream = new FileOutputStream("./" + outputName + ".hf");
+        FileOutputStream outputStream = new FileOutputStream("./" + outputName);
         outputStream.write(bytes); 
         outputStream.close();
     }
@@ -25,7 +25,6 @@ public class FileUtils {
         inputStream.close();
         return byteArray; 
     }
-
 
     public static String fileReaderOutput(String fileName) {
         StringBuffer inputBuffer = new StringBuffer(); 
@@ -101,10 +100,31 @@ public class FileUtils {
                 
         return new String(bitBuilder);
     }
+
+    public static String intToBits(int input, int bitLength) { 
+        StringBuilder bitBuilder = new StringBuilder(); 
+
+        for (int j = bitLength-1; j >= 0; j--) {  
+            bitBuilder.append((input >> j) & 1);
+        }        
+        return bitBuilder.toString();
+    }
+    
+    public static int bitsToInt(String bits) {
+
+        int output = 0; 
+        int bitLength = bits.length()-1; 
+
+        for (int i = bitLength; i >= 0; i--) { 
+            if (bits.charAt(i) == '1') {
+                output += Math.pow(2, bitLength-i);
+            }   
+        }
+    
+        return output; 
+    }
     public static void main(String[] args) {
-        File testing = new File("./" + "moi");
-        String filePath = testing.getAbsolutePath();
-        System.out.println(filePath);
+
     }
 
 
