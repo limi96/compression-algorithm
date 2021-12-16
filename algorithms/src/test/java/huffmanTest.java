@@ -48,7 +48,7 @@ public class huffmanTest {
     
     @Test
     public void correctDecodeWithASCII256() {        
-        String decodeOutput = h.decode(h.getRootNode(), h.getEncodedMessage(input));
+        String decodeOutput = h.decode(h.getRootNode(), h.getAndConstructEncodedMessage(input));
         assertEquals(input, decodeOutput);
     }
     

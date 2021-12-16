@@ -1,8 +1,8 @@
 package algorithms.benchmarks;
 
-import algorithms.FileUtils;
 import algorithms.Huffman;
 import algorithms.LZW;
+import algorithms.utils.FileUtils;
 
 public class CompressionBenchmark {
 
@@ -11,24 +11,13 @@ public class CompressionBenchmark {
         
         //Need to make a method that encodes lol
         String inputString = ""; 
-        inputString = FileUtils.fileReaderOutput(fileName);
+        inputString = FileUtils.textFileReaderOutput(fileName);
         long inputByteSize = FileUtils.getByteArray().length; 
 
-        long start = System.nanoTime(); 
         String encodedMessage = h.encode(inputString);
-        long end = System.nanoTime();
-        System.out.println("Time taken: " + (end-start)/1E9 + " s");
         
-        start = System.nanoTime(); 
         h.writeEncodedFile("huffmanCompressionTest.hf");
-        end = System.nanoTime();
-        System.out.println("Time taken: " + (end-start)/1E9 + " s");
         
-        // start = System.nanoTime(); 
-        // h.readEncodedFile("huffmanCompressionTest.hf");
-        // end = System.nanoTime();
-        // System.out.println("Time taken: " + (end-start)/1E9 + " s");
-
         long huffmanByteSize = FileUtils.readFile("huffmanCompressionTest.hf").length;
 
         Double compRateHuffman = ((double) huffmanByteSize/inputByteSize)*100;
@@ -52,7 +41,7 @@ public class CompressionBenchmark {
         LZW lzw = new LZW(); 
 
         String inputString = ""; 
-        inputString = FileUtils.fileReaderOutput(fileName);
+        inputString = FileUtils.textFileReaderOutput(fileName);
         long inputByteSize = FileUtils.getByteArray().length; 
 
         lzw.compress(inputString); 
@@ -74,12 +63,11 @@ public class CompressionBenchmark {
         System.out.println("LZW compression rate                        : " + String.format("%.2f",compRateLZW) + " %");
         System.out.println();
     }
-
     public static void main(String[] args) throws java.io.IOException {
 
         // huffmanTest("100_KB_lorem.txt");
         // huffmanTest("100_KB_repeating_lorem_ipsum.txt");
-        // huffmanTest("100_KB_cScSc.txt");
+        huffmanTest("100_KB_cScSc.txt");
         // huffmanTest("ASCII_256.txt");
         // huffmanTest("Large Lorem.txt");
     
@@ -87,16 +75,11 @@ public class CompressionBenchmark {
         // lzwTest("100_KB_cScSc.txt");
         // lzwTest("ASCII_256.txt");
         
-        long start = System.nanoTime(); 
-        lzwTest("100_KB_lorem.txt");
+        // long start = System.nanoTime(); 
+        // lzwTest("100_KB_lorem.txt");
         // lzwTest("Large Lorem.txt");
-        long end = System.nanoTime();
-        System.out.println("Time taken: " + (end-start)/1E9 + " s");
+        // long end = System.nanoTime();
+        // System.out.println("Time taken: " + (end-start)/1E9 + " s");
     }
 
-
-
-
-
-    
 }

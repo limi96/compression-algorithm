@@ -1,4 +1,4 @@
-package algorithms; 
+package algorithms.utils; 
 
 import java.io.File; 
 import java.nio.file.Files;
@@ -14,7 +14,6 @@ public class FileUtils {
     public static byte[] byteArray;
     public static String stringInput; 
     
-
     public static void writeFile(String outputName, byte[] bytes) throws java.io.IOException {
         FileOutputStream outputStream = new FileOutputStream("./" + outputName);
         outputStream.write(bytes); 
@@ -28,10 +27,9 @@ public class FileUtils {
         return byteArray; 
     }
 
-    public static String fileReaderOutput(String fileName) {
+    public static String textFileReaderOutput(String fileName) {
         StringBuffer inputBuffer = new StringBuffer(); 
-        File testing = new File("test_files/" + fileName);
-        String filePath = testing.getAbsolutePath();
+        String filePath = "test_files/" + fileName;
 
         try {
             Files.lines(Paths.get(filePath)).forEach(newLine -> inputBuffer.append(newLine));
@@ -43,11 +41,6 @@ public class FileUtils {
         return stringInput; 
     }
     
-    public static byte[] getByteArray() {
-        byteArray = stringInput.getBytes(StandardCharsets.UTF_8);
-        return byteArray; 
-    }
-
     public static byte[] bitsToByte(String input) {
         int length = input.length();
         byte[] bytes = new byte[(int) Math.ceil(length / 8.0)+1];
@@ -124,6 +117,11 @@ public class FileUtils {
         }
     
         return output; 
+    }
+
+    public static byte[] getByteArray() {
+        byteArray = stringInput.getBytes(StandardCharsets.UTF_8);
+        return byteArray; 
     }
     public static void main(String[] args) {
 

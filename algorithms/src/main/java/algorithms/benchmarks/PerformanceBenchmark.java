@@ -1,7 +1,11 @@
-package algorithms; 
+package algorithms.benchmarks; 
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import algorithms.Huffman;
+import algorithms.LZW;
+import algorithms.utils.FileUtils;
 
 
 public class PerformanceBenchmark {
@@ -23,7 +27,7 @@ public class PerformanceBenchmark {
         LZW lzw = new LZW(); 
 
         FileUtils fileReader = new FileUtils();
-        String testInputString = fileReader.fileReaderOutput(testString);
+        String testInputString = fileReader.textFileReaderOutput(testString);
         
         long start = 0;
         long end   = 0; 

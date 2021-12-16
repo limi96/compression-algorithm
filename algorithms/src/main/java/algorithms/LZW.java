@@ -1,9 +1,10 @@
 package algorithms; 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.lang.Math; 
+
+import algorithms.utils.FileUtils;
 
 public class LZW {
 
@@ -12,29 +13,9 @@ public class LZW {
     public static int maxDictSize = (int) Math.pow(2, bitLength); 
     // public static int maxDictSize = Integer.MAX_VALUE; 
 
-    // Initialize the standard character HashMap for codes 0 to 256 
-    public static HashMap<String, Integer> createCompressDictionary() {
-        HashMap<String, Integer> dict = new HashMap<>();
-        for (int i = 0; i < 256; i++) {
-            String code = Character.toString((char) i); 
-            dict.put(code, i);
-        }
-        return dict; 
-    }
-
-    // Initialize the standard character HashMap for codes 0 to 256 
-    public static HashMap<Integer, String> createUncompressDictionary() {
-        HashMap<Integer, String> dict = new HashMap<>();
-        for (int i = 0; i < 256; i++) {
-            String code = Character.toString((char) i); 
-            dict.put(i, code);
-        }
-        return dict; 
-    }
-
-        // Looks for reoccuring patterns. If patterns are occuring more than once
-        // Assign a new code for the pattern by incrementing starting from 256
-        // Then add new code to the existing HashMap 
+    // Looks for reoccuring patterns. If patterns are occuring more than once
+    // Assign a new code for the pattern by incrementing starting from 256
+    // Then add new code to the existing HashMap 
 
     public void compress(String input) {
 
@@ -139,6 +120,28 @@ public class LZW {
         return decodedString; 
     }
 
+    // Initialize the standard character HashMap for codes 0 to 256 
+    public static HashMap<String, Integer> createCompressDictionary() {
+        HashMap<String, Integer> dict = new HashMap<>();
+        for (int i = 0; i < 256; i++) {
+            String code = Character.toString((char) i); 
+            dict.put(code, i);
+        }
+        return dict; 
+    }
+
+    public static HashMap<Integer, String> createUncompressDictionary() {
+        HashMap<Integer, String> dict = new HashMap<>();
+        for (int i = 0; i < 256; i++) {
+            String code = Character.toString((char) i); 
+            dict.put(i, code);
+        }
+        return dict; 
+    }
+
+    
+    // File I/O
+
     public static void writeLZWFile(String outputName) throws java.io.IOException {
         ArrayList<Integer> input = encoded; 
 
@@ -196,7 +199,7 @@ public class LZW {
 
         // input = FileUtils.fileReaderOutput("100_KB_lorem.txt");
         // input = FileUtils.fileReaderOutput("Large Lorem.txt");
-        input = FileUtils.fileReaderOutput("100_KB_repeating_lorem_ipsum.txt");
+        input = FileUtils.textFileReaderOutput("100_KB_repeating_lorem_ipsum.txt");
         
         // long start = System.nanoTime(); 
         lzw.compress(input);

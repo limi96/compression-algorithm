@@ -1,4 +1,4 @@
-package algorithms; 
+package algorithms.utils; 
 
 //Simple node datastructure for the PriorityQueue and Huffman Tree
 public class Node implements Comparable<Node> {
