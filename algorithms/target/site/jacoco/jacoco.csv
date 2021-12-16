@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Algorithms,default,CompressionBenchmark,111,0,0,0,22,0,3,0,3,0
+Algorithms,default,PerformanceBenchmark,322,0,16,0,68,0,16,0,8,0
+Algorithms,default,FileUtils,61,0,0,0,12,0,4,0,4,0
+Algorithms,default,Node,36,36,0,0,11,13,4,3,4,3
+Algorithms,default,Huffman,153,280,16,20,32,51,16,17,6,9
+Algorithms,default,LZW,29,222,2,14,6,44,4,10,2,4
+Algorithms,default,Main,6,0,0,0,3,0,2,0,2,0

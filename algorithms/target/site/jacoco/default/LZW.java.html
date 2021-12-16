@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LZW.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Algorithms</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">LZW.java</span></div><h1>LZW.java</h1><pre class="source lang-java linenums">import java.util.ArrayList;
+import java.util.HashMap;
+
+<span class="fc" id="L4">public class LZW {</span>
+
+<span class="fc" id="L6">    ArrayList&lt;Integer&gt; encoded = new ArrayList&lt;&gt;(); </span>
+
+    public void compress(String input) {
+
+<span class="fc" id="L10">        int inputChar = 256;        </span>
+<span class="fc" id="L11">        HashMap&lt;String, Integer&gt; hm = new HashMap&lt;&gt;();</span>
+        // Initialize the standard character HashMap for codes 0 to 256 
+
+<span class="fc bfc" id="L14" title="All 2 branches covered.">        for (int i = 0; i &lt; 256; i++) {</span>
+<span class="fc" id="L15">            String code = Character.toString((char) i); </span>
+<span class="fc" id="L16">            hm.put(code, i);</span>
+        }
+        
+<span class="fc" id="L19">        char[] inputArr = input.toCharArray(); </span>
+<span class="fc" id="L20">        String currentString = Character.toString(inputArr[0]);</span>
+
+<span class="fc" id="L22">        ArrayList&lt;String&gt; stringList = new ArrayList&lt;&gt;(); </span>
+
+        // Looks for reoccuring patterns. If patterns are occuring more than once
+        // Assign a new code for the pattern by incrementing starting from 256
+        // Then add new code to the existing HashMap 
+<span class="fc" id="L27">        String nextChar = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (int i = 0; i &lt; input.length(); i++) {</span>
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            if (i &lt; input.length()-1) {</span>
+<span class="fc" id="L32">                nextChar = Character.toString(inputArr[i+1]);</span>
+            }
+
+<span class="fc" id="L35">            String nextRead = currentString + nextChar; </span>
+            
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">            if (hm.containsKey(nextRead)) {</span>
+<span class="nc" id="L38">                currentString = nextRead; </span>
+            }
+
+            else {
+<span class="fc" id="L42">                hm.put(nextRead, inputChar);</span>
+<span class="fc" id="L43">                inputChar++; </span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                if (i == input.length()-1) {</span>
+<span class="fc" id="L46">                    currentString = nextChar;</span>
+                }   
+                
+<span class="fc" id="L49">                encoded.add(hm.get(currentString));</span>
+                
+<span class="fc" id="L51">                stringList.add(currentString);</span>
+<span class="fc" id="L52">                currentString = nextChar; </span>
+            }
+        }
+        
+        // System.out.println(&quot;Encoded   --&gt; &quot; + encoded.toString());
+        // System.out.println(&quot;StringList--&gt; &quot; + stringList.toString());
+<span class="fc" id="L58">    }</span>
+
+    public long outputByteSize() {
+<span class="nc" id="L61">        return encoded.size(); </span>
+    }
+
+    public ArrayList&lt;Integer&gt; getEncodedList() {
+<span class="fc" id="L65">        return encoded; </span>
+    }
+
+    public String uncompress(ArrayList&lt;Integer&gt; encoded) {
+
+<span class="fc" id="L70">        HashMap&lt;Integer, String&gt; hm = new HashMap&lt;&gt;();</span>
+
+        // Initialize the standard character HashMap for codes 0 to 256 
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (int i = 0; i &lt; 256; i++) {</span>
+<span class="fc" id="L75">            String code = Character.toString((char) i); </span>
+<span class="fc" id="L76">            hm.put(i, code);</span>
+        }
+
+        // Get first code 
+<span class="fc" id="L80">        int inputCode = encoded.get(0); </span>
+
+        // Get output of first code
+<span class="fc" id="L83">        String currentString = hm.get(inputCode); </span>
+
+        // Helper to form letter combinations
+<span class="fc" id="L86">        String previousCharacter = &quot;&quot;; </span>
+
+        // Output 
+<span class="fc" id="L89">        String decodedString = currentString;</span>
+
+<span class="fc" id="L91">        int inputChar = 256; </span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        for (int i = 0; i &lt; encoded.size()-1; i++) {</span>
+
+<span class="fc" id="L95">            int nextCode = encoded.get(i+1); </span>
+             
+            //If dictionary doesn't contain the value of nextcode
+            //It means we've encountered a reoccuring pattern (Its code value is higher than 256)
+            //This means we have to add the previousCharacter to currentString
+            //To reproduce a letter combination for the pattern
+
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            if (!hm.containsKey(nextCode)) {</span>
+<span class="nc" id="L103">                currentString = hm.get(inputCode);</span>
+<span class="nc" id="L104">                currentString += previousCharacter; </span>
+            }
+
+            else {
+<span class="fc" id="L108">                currentString = hm.get(nextCode); </span>
+            }
+
+            //Append currentString to form decoded message
+<span class="fc" id="L112">            decodedString += currentString;</span>
+
+            // Form a letter combination
+<span class="fc" id="L115">            previousCharacter = &quot;&quot; + currentString.charAt(0);</span>
+
+            //Put the letter combination into the dictionary
+            //This will enable reusing letter combinations that have been encountered before
+<span class="fc" id="L119">            hm.put(inputChar, hm.get(inputCode) + previousCharacter);</span>
+
+<span class="fc" id="L121">            inputChar++; // starts from 256 now 257</span>
+<span class="fc" id="L122">            inputCode = nextCode;</span>
+        }
+<span class="fc" id="L124">        return decodedString; </span>
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        
+<span class="nc" id="L130">        LZW lzw = new LZW();</span>
+        
+        // lzw.compress(&quot;A brown fox jumps quickly over the lazy dog&quot;);
+        // lzw.compress(&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ&quot;);
+        // lzw.compress(&quot;1234568790&quot;);
+
+        // lzw.compress(&quot;Lorem ipsum Lorem Lorem Lorem Lorem&quot;);
+        // lzw.compress(&quot;1234&quot;);        
+        // Testing a known edge case
+        // lzw.compress(&quot;cScSc&quot;); 
+<span class="nc" id="L140">    }   </span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
