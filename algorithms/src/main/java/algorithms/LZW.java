@@ -197,9 +197,9 @@ public class LZW {
         // input = "ABABABABABABABABABA";
         // input = "ABABABA OTOTOTO";
 
-        // input = FileUtils.fileReaderOutput("100_KB_lorem.txt");
-        // input = FileUtils.fileReaderOutput("Large Lorem.txt");
-        input = FileUtils.textFileReaderOutput("100_KB_repeating_lorem_ipsum.txt");
+        // input = FileUtils.fileReaderOutput("test_files/100_KB_lorem.txt");
+        // input = FileUtils.fileReaderOutput("test_files/Large Lorem.txt");
+        input = FileUtils.readTextFile("test_files/100_KB_repeating_lorem_ipsum.txt");
         
         // long start = System.nanoTime(); 
         lzw.compress(input);

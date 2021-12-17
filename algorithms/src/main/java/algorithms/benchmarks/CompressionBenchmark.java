@@ -9,9 +9,10 @@ public class CompressionBenchmark {
     public static void huffmanTest(String fileName) throws java.io.IOException {
         Huffman h = new Huffman();
         
-        //Need to make a method that encodes lol
+        fileName = "test_files/" + fileName; 
+
         String inputString = ""; 
-        inputString = FileUtils.textFileReaderOutput(fileName);
+        inputString = FileUtils.readTextFile(fileName);
         long inputByteSize = FileUtils.getByteArray().length; 
 
         String encodedMessage = h.encode(inputString);
@@ -20,12 +21,12 @@ public class CompressionBenchmark {
         
         long huffmanByteSize = FileUtils.readFile("huffmanCompressionTest.hf").length;
 
-        Double compRateHuffman = ((double) huffmanByteSize/inputByteSize)*100;
-        Double compRateHuffmanNoTree = ((double) (huffmanByteSize-h.getTreeData().length)/inputByteSize)*100;
+        Double compRateHuffman = ((double) huffmanByteSize / inputByteSize)*100;
+        Double compRateHuffmanNoTree = ((double) (huffmanByteSize - h.getTreeData().length) / inputByteSize) * 100;
 
         System.out.println("_____________Testing Huffman Compression Rates_____________");
         System.out.println("Filename                                    : " + fileName);
-        System.out.println("Input   Message length        (in bits)     : " + inputString.getBytes().length*8);
+        System.out.println("Input   Message length        (in bits)     : " + inputString.getBytes().length * 8);
         System.out.println("Encoded Message length        (in bits)     : " + encodedMessage.length());
         System.out.println("Input File size               (in bytes)    : " + inputByteSize);
         System.out.println("Huffman Compressed File size  (in bytes)    : " + huffmanByteSize);
@@ -37,11 +38,12 @@ public class CompressionBenchmark {
     }
 
     public static void lzwTest(String fileName) throws java.io.IOException {
-       //LZW 
         LZW lzw = new LZW(); 
+        
+        fileName = "test_files/" + fileName; 
 
         String inputString = ""; 
-        inputString = FileUtils.textFileReaderOutput(fileName);
+        inputString = FileUtils.readTextFile(fileName);
         long inputByteSize = FileUtils.getByteArray().length; 
 
         lzw.compress(inputString); 
@@ -67,7 +69,7 @@ public class CompressionBenchmark {
 
         // huffmanTest("100_KB_lorem.txt");
         // huffmanTest("100_KB_repeating_lorem_ipsum.txt");
-        huffmanTest("100_KB_cScSc.txt");
+        // huffmanTest("100_KB_cScSc.txt");
         // huffmanTest("ASCII_256.txt");
         // huffmanTest("Large Lorem.txt");
     

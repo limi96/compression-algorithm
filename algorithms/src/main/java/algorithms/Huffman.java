@@ -35,24 +35,33 @@ public class Huffman {
         long start = System.currentTimeMillis();
 
         //create EncodedFile
-        encodedMessage = h.encode(input);
-        System.out.println("Encoded : " + encodedMessage);
-        ArrayList<String> test = HuffmanUtils.serializeBFS(rootNode);
-        System.out.println("Test1 " + test.toString());
-        // writeEncodedFile("huffmanTest.hf");
-        
+        // encodedMessage = h.encode(input);
+        // System.out.println("Encoded : " + encodedMessage);
+        // ArrayList<String> rootNodeToList = HuffmanUtils.serializeBFS(rootNode);
+        // System.out.println("Encode Root: " + rootNodeToList.toString());
+        // writeEncodedFile("huffmanTest");
+
         //Reset encodedMessage
         encodedMessage = ""; 
         //Read file. EncodedMessage gets updated now
 
+        //It's using the rootNode for something...
+        h = new Huffman(); 
+        rootNode = null; 
 
-        readEncodedFile("huffmanTest.hf");
+
+        // System.out.println("inputRootNode : " + inputRootNode.toString());
+        h.readEncodedFile("huffmanTest.hf");
         
-        ArrayList<String> test2 = HuffmanUtils.serializeBFS(inputRootNode);
-        System.out.println("Test2 " + test2.toString());
+        ArrayList<String> inputRootNodeToList = HuffmanUtils.serializeBFS(inputRootNode);
+
+        // Nope even this ain't working lmao
+        // ArrayList<String> inputRootNodeToList = HuffmanUtils.serializeBFS(h.getInputRootNode());
+
+        System.out.println("Decode Root: " + inputRootNodeToList.toString());
         System.out.println("Encoded : " + encodedMessage);
 
-        String output = h.decode(inputRootNode, encodedMessage); 
+        String output = h.decode(h.getInputRootNode(), encodedMessage); 
         System.out.println("ENCODE-DECODE OUTCOME : " + input.equals(output));
         long end = System.currentTimeMillis();
         System.out.println("Time taken : " + (end-start)/1E3 + " s");
@@ -150,7 +159,7 @@ public class Huffman {
             //Then return back to the root 
             if (currentNode.left == null && currentNode.right == null && currentNode.letter != null) {
                 decodedMessage += currentNode.letter;
-                currentNode = rootNode; 
+                currentNode = inputRootNode; 
             }
         }
 
@@ -160,7 +169,7 @@ public class Huffman {
 
     //File I/O utilities
 
-    public static void writeEncodedFile(String outputName) throws java.io.IOException {
+    public void writeEncodedFile(String outputName) throws java.io.IOException {
         
         // byte[] messageData = FileUtils.bitsToByte(encodedMessage);        
         // byte[] treeData = HuffmanUtils.serializeToBytes(rootNode);
@@ -171,10 +180,10 @@ public class Huffman {
         byte[] outputBytes = HuffmanUtils.combineTreeDataWithMessage(treeData, messageData);
 
         //Write File
-        FileUtils.writeFile(outputName, outputBytes);
+        FileUtils.writeFile(outputName+".hf", outputBytes);
     }
 
-    public static void readEncodedFile(String inputName) throws java.io.IOException {
+    public void readEncodedFile(String inputName) throws java.io.IOException {
         // Read File 
         byte[] inputBytes = FileUtils.readFile(inputName);
         byte[] treeLengthData = Arrays.copyOfRange(inputBytes, 0, 4);

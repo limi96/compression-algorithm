@@ -74,22 +74,24 @@ public class MainSceneController implements Initializable {
         return false; 
     }
 
-    public boolean checkEmptyFileNameField() {        
+    public boolean checkFileNameField() {        
         if (inputTextFileRadio.isSelected() && inputNameField.getText().isEmpty()) {
-            resultLabel.setText("Error!");
             resultArea.setText("INPUT NAME FIELD CANNOT BE EMPTY!");
             return true;
         }
 
         if (outputFileCheckBox.isSelected() && outputNameField.getText().isEmpty()) {
-            resultLabel.setText("Error!");
             resultArea.setText("OUTPUT NAME FIELD CANNOT BE EMPTY!");
             return true;
         }   
 
         if (inputEncodedFileRadio.isSelected() && encodedNameField.getText().isEmpty()) {
-            resultLabel.setText("Error!");
             resultArea.setText("ENCODED INPUT NAME FIELD CANNOT BE EMPTY!");
+            return true;
+        }
+
+        if (outputFileCheckBox.isSelected() && outputNameField.getText().contains(".")) {
+            resultArea.setText("OUTPUT NAME FIELD CANNOT CONTAIN THE FILE EXTENSION (.txt|.hf|.lzw)!");
             return true;
         }
 
@@ -118,37 +120,14 @@ public class MainSceneController implements Initializable {
     @FXML
     public void handleHuffman(ActionEvent event) throws java.io.IOException {
 
-        String input = "";
-        String output = ""; 
-        String fileName = ""; 
-        resultLabel.setText("Results");
-        resultArea.setText(""); 
-
-        if (checkEmptyFileNameField()) {
-            return;
-        } 
-        
-        if (inputTextFileRadio.isSelected()) {
-
-            fileName = inputNameField.getText();
-            if (checkInputFileName(fileName)) {
-                return; 
-            }
-            input = FileUtils.textFileReaderOutput(fileName);
-            inputArea.setText(input); 
-        }        
-
-        else if (inputFieldRadio.isSelected()){
-            if (checkEmptyInputArea()) {
-                return; 
-            }
-            input = inputArea.getText(); 
+        if (handleInitiationFailed()) {
+            return; 
         }
 
         if (encodeRadio.isSelected()) { 
             h.encode(input); 
             output = h.getEncodedMessage(); 
-            huffmanCompressionPrints(input, output);
+            huffmanCompressionPrints(input, output, false, "");
         }
 
         else if (decodeRadio.isSelected()) {
@@ -160,37 +139,46 @@ public class MainSceneController implements Initializable {
                 if (checkEncodedInputFileName(fileName, ".hf")) {
                     return; 
                 }
-                
+                                
                 h.readEncodedFile(fileName);
                 input = h.getEncodedMessage(); 
-            
                 Node rootNode = h.getRootNode() == null ? h.getInputRootNode() : h.getRootNode() ; 
                 output = h.decode(rootNode, input); 
-                huffmanCompressionPrints(output, input);
+                
+                huffmanCompressionPrints(output, input, true, fileName);
             }
             
         }
     }
 
-    public void huffmanCompressionPrints(String input, String output) throws java.io.IOException {
-        String text = "Compression results \n";
-    
-        String outputName = "test.hf"; 
-        
-        if (outputFileCheckBox.isSelected()) {
-            outputName = outputNameField.getText()+".hf";
+
+
+    public void writeOutputFile(String input, String outputName, boolean decode) throws java.io.IOException  {
+        if (!decode) {
+            h.writeEncodedFile(outputName);
+        } else {
+            FileUtils.writeTextFile(outputName, input);
         }
+    }
+
+    public void huffmanCompressionPrints(String input, String output, boolean decode, String originalInputFileName) throws java.io.IOException {
+        
+        String text = "Compression results \n";
+
+        String outputName = outputFileCheckBox.isSelected() ? outputName = outputNameField.getText() : "test";         
+        
+        writeOutputFile(input, outputName, decode);
+
+        outputName = decode ? originalInputFileName : outputName + ".hf"; 
 
         text += 
-        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length*8) + "\n" + 
+        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 8) + "\n" + 
         ("Output Message length \t\t\t (in bits) : \t" + output.length()) + "\n";
-
-        h.writeEncodedFile(outputName);
 
         long inputByteSize = input.getBytes().length; 
         long huffmanByteSize = FileUtils.readFile(outputName).length;
-        Double compRateHuffman = ((double) huffmanByteSize/inputByteSize)*100;
-        Double compRateHuffmanNoTree = ((double) (huffmanByteSize-h.getTreeData().length)/inputByteSize)*100;
+        Double compRateHuffman = ((double) huffmanByteSize / inputByteSize) * 100;
+        Double compRateHuffmanNoTree = ((double) (huffmanByteSize - h.getTreeData().length) / inputByteSize) * 100;
 
         text += 
         ("Huffman Compressed File size \t (in bytes) : \t" + huffmanByteSize) + "\n" + 
@@ -198,15 +186,87 @@ public class MainSceneController implements Initializable {
         ("Huffman Message File size \t\t (in bytes) : \t" + h.getMessageData().length) + "\n" + 
         ("Huffman compression rate \t\t\t\t: \t" + String.format("%.2f",compRateHuffman) + " %") + "\n" + 
         ("Compression rate Without Tree \t\t\t: \t" + String.format("%.2f",compRateHuffmanNoTree) + " %") + "\n";
+
+        setCompressionResultArea(input, output, text, decode);
+    }
+
+    public void setCompressionResultArea(String input, String output, String text, boolean decode) {
+        if (decode) {
+            String temp = input; 
+            input = output; 
+            output = temp; 
+        }
+        inputArea.setText(input); 
         resultArea.setText(text);
         outputArea.setText(output); 
     }
 
+    String input;
+    String output;
+    String fileName;
 
     @FXML
-    public void handleLZW(ActionEvent event) {
-        String input = inputArea.getText(); 
-        outputArea.setText(input); 
+    public boolean handleInitiationFailed() {
+        input = "";
+        output = ""; 
+        fileName = ""; 
+        resultLabel.setText("Results");
+        resultArea.setText(""); 
+
+        if (checkFileNameField()) {
+            return true;
+        } 
+        
+        if (inputTextFileRadio.isSelected()) {
+
+            fileName = inputNameField.getText();
+            if (checkInputFileName(fileName)) {
+                return true; 
+            }
+            input = FileUtils.readTextFile(fileName);
+            inputArea.setText(input); 
+        }        
+
+        else if (inputFieldRadio.isSelected()){
+            if (checkEmptyInputArea()) {
+                return true; 
+            }
+            input = inputArea.getText(); 
+        }
+        return false;
+    }
+
+    @FXML
+    public void handleLZW(ActionEvent event) throws java.io.IOException {
+
+        handleInitiationFailed();
+
+        if (encodeRadio.isSelected()) { 
+            h.encode(input); 
+            output = h.getEncodedMessage(); 
+            // huffmanCompressionPrints(input, output, false);
+        }
+
+        else if (decodeRadio.isSelected()) {
+            
+            if (inputEncodedFileRadio.isSelected()) {
+
+                fileName = encodedNameField.getText();
+                
+                if (checkEncodedInputFileName(fileName, ".hf")) {
+                    return; 
+                }
+                                
+                h.readEncodedFile(fileName);
+                input = h.getEncodedMessage(); 
+                Node rootNode = h.getRootNode() == null ? h.getInputRootNode() : h.getRootNode() ; 
+                output = h.decode(rootNode, input); 
+
+                // huffmanCompressionPrints(output, input, true);
+            }
+            
+        }
+
     }
 
     @FXML
@@ -219,9 +279,6 @@ public class MainSceneController implements Initializable {
         outputArea.setText(""); 
     }
     
-
-    
-
     public void setApplication(Ui application) {
         this.application = application; 
     }

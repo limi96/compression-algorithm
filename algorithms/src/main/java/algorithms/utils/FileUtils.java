@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 
 public class FileUtils {
 
@@ -27,12 +28,11 @@ public class FileUtils {
         return byteArray; 
     }
 
-    public static String textFileReaderOutput(String fileName) {
+    public static String readTextFile(String fileName) {
         StringBuffer inputBuffer = new StringBuffer(); 
-        String filePath = "test_files/" + fileName;
-
+    
         try {
-            Files.lines(Paths.get(filePath)).forEach(newLine -> inputBuffer.append(newLine));
+            Files.lines(Paths.get(fileName)).forEach(newLine -> inputBuffer.append(newLine));
         } catch (Exception e) {
             System.out.println("Error! Could not read file : " + e.getMessage());
         }        
@@ -40,7 +40,19 @@ public class FileUtils {
         stringInput = new String(inputBuffer); 
         return stringInput; 
     }
+
+    public static void writeTextFile(String fileName, String output) {
+        try {
+            FileWriter file = new FileWriter(fileName + ".txt"); 
+            file.write(output); 
+            file.close();
+        } catch (Exception e) {
+            System.out.println("Error! Could not write file : " + e.getMessage());
+        }
+    }
     
+    
+
     public static byte[] bitsToByte(String input) {
         int length = input.length();
         byte[] bytes = new byte[(int) Math.ceil(length / 8.0)+1];

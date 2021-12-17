@@ -18,7 +18,6 @@ public class PerformanceBenchmark {
 
     public void initialize() {
         h = new Huffman();
-        fileReader = new FileUtils();
     }
 
     public static void encodingTime(String testString, boolean testHuffman, boolean testLZW) {
@@ -26,8 +25,7 @@ public class PerformanceBenchmark {
         Huffman h = new Huffman();
         LZW lzw = new LZW(); 
 
-        FileUtils fileReader = new FileUtils();
-        String testInputString = fileReader.textFileReaderOutput(testString);
+        String testInputString = FileUtils.readTextFile("test_files/" + testString);
         
         long start = 0;
         long end   = 0; 

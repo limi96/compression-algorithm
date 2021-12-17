@@ -74,7 +74,6 @@ public class HuffmanUtils {
         Node rootNode = new Node(serializedInput.get(0));
         queue.add(rootNode);
         int index = 1; 
-
         while (!queue.isEmpty()) {
             Node first = queue.pollFirst();  
 
@@ -85,7 +84,6 @@ public class HuffmanUtils {
             }
             else {
                 first.setLeftNode(null);
-                // first.setLeftNode(new Node("null"));
             }
 
             index++; 
@@ -97,7 +95,6 @@ public class HuffmanUtils {
             }
             else {
                 first.setRightNode(null);
-                // first.setRightNode(new Node("null"));
             }
 
             index++; 

@@ -12,18 +12,18 @@
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="1364.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algorithms.ui.MainSceneController">
    <children>
-      <Button layoutX="27.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleHuffman" prefHeight="72.0" prefWidth="223.0" text="Huffman">
+      <Button layoutX="17.0" layoutY="112.0" mnemonicParsing="false" onAction="#handleHuffman" prefHeight="49.0" prefWidth="151.0" text="Huffman">
          <font>
-            <Font size="36.0" />
+            <Font size="26.0" />
          </font></Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="571.0" prefHeight="134.0" prefWidth="536.0" text="Huffman and LZW">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="555.0" layoutY="3.0" prefHeight="134.0" prefWidth="536.0" text="Huffman and LZW">
          <font>
             <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="27.0" layoutY="151.0" mnemonicParsing="false" onAction="#handleLZW" prefHeight="62.0" prefWidth="223.0" text="LZW">
+      <Button layoutX="175.0" layoutY="112.0" mnemonicParsing="false" onAction="#handleLZW" prefHeight="49.0" prefWidth="151.0" text="LZW">
          <font>
-            <Font size="28.0" />
+            <Font size="26.0" />
          </font></Button>
       <TextArea fx:id="inputArea" layoutX="351.0" layoutY="163.0" prefHeight="263.0" prefWidth="459.0" wrapText="true" />
       <Label alignment="TOP_LEFT" layoutX="351.0" layoutY="122.0" prefHeight="36.0" prefWidth="83.0" text="Input" textAlignment="CENTER">
@@ -39,12 +39,12 @@
       <TextArea fx:id="outputArea" layoutX="357.0" layoutY="479.0" prefHeight="255.0" prefWidth="459.0" wrapText="true" />
       <Button layoutX="698.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleClearInput" prefHeight="36.0" prefWidth="112.0" text="Clear Field" />
       <Button layoutX="701.0" layoutY="435.0" mnemonicParsing="false" onAction="#handleClearOutput" prefHeight="36.0" prefWidth="112.0" text="Clear field" />
-      <CheckBox fx:id="outputFileCheckBox" layoutX="28.0" layoutY="542.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="248.0" text="Name output to file">
+      <CheckBox fx:id="outputFileCheckBox" layoutX="27.0" layoutY="528.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="314.0" text="Name output file">
          <font>
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <RadioButton fx:id="encodeRadio" layoutX="27.0" layoutY="27.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="112.0" selected="true" text="Encode">
+      <RadioButton fx:id="encodeRadio" layoutX="33.0" layoutY="54.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="112.0" selected="true" text="Encode">
          <font>
             <Font size="19.0" />
          </font>
@@ -52,7 +52,7 @@
             <ToggleGroup fx:id="mode" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="decodeRadio" layoutX="149.0" layoutY="21.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Decode" toggleGroup="$mode">
+      <RadioButton fx:id="decodeRadio" layoutX="190.0" layoutY="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Decode" toggleGroup="$mode">
          <font>
             <Font size="19.0" />
          </font>
@@ -63,28 +63,18 @@
          </font>
       </Label>
       <TextArea fx:id="resultArea" layoutX="845.0" layoutY="163.0" prefHeight="569.0" prefWidth="459.0" wrapText="true" />
-      <TextField fx:id="outputNameField" layoutX="65.0" layoutY="627.0" promptText="ENTER FILE NAME" />
-      <TextField fx:id="inputNameField" layoutX="67.0" layoutY="376.0" promptText="ENTER FILE NAME" />
-      <CheckBox layoutX="1068.0" layoutY="3.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="248.0" text="Open input from file">
+      <TextField fx:id="outputNameField" layoutX="64.0" layoutY="664.0" promptText="ENTER FILE NAME" />
+      <TextField fx:id="inputNameField" layoutX="72.0" layoutY="376.0" promptText="ENTER FILE NAME" />
+      <CheckBox layoutX="27.0" layoutY="700.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="330.0" text="Include Performance Test">
          <font>
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="25.0" layoutY="665.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="330.0" text="Include Performance Test">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </CheckBox>
-      <TextField fx:id="encodedNameField" layoutX="72.0" layoutY="500.0" promptText="ENTER FILE NAME" />
-      <CheckBox layoutX="1089.0" layoutY="51.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="275.0" text="Encoded input from file">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </CheckBox>
-      <Label layoutX="63.0" layoutY="571.0" prefHeight="62.0" prefWidth="201.0" text="If not checked, the default name is &quot;test&quot; + &quot;.hf/.lzw&quot;" wrapText="true" />
-      <Label layoutX="69.0" layoutY="329.0" prefHeight="36.0" prefWidth="177.0" text="Must be in .txt-format Must select Encode-option" wrapText="true" />
-      <Label layoutX="70.0" layoutY="455.0" prefHeight="36.0" prefWidth="187.0" text="Must be in .hf or .lzw format Must select Decode-option" wrapText="true" />
-      <RadioButton fx:id="inputTextFileRadio" layoutX="28.0" layoutY="295.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="286.0" text="Open text input from file">
+      <TextField fx:id="encodedNameField" layoutX="72.0" layoutY="496.0" promptText="ENTER FILE NAME" />
+      <Label layoutX="64.0" layoutY="570.0" prefHeight="106.0" prefWidth="241.0" text="If not checked, the default name is &quot;test&quot; + &quot;.txt/.hf/.lzw&quot; depending on encoding/decoding and algorithm used. Do not add a file extension in the name" textAlignment="CENTER" wrapText="true" />
+      <Label layoutX="69.0" layoutY="277.0" prefHeight="99.0" prefWidth="177.0" text="Must be in .txt-format Must select Encode-option Add &quot;test_files/&quot; before file name if you want to read files in test_files" wrapText="true" />
+      <Label layoutX="73.0" layoutY="444.0" prefHeight="36.0" prefWidth="187.0" text="Must be in .hf or .lzw format Must select Decode-option. " wrapText="true" />
+      <RadioButton fx:id="inputTextFileRadio" layoutX="28.0" layoutY="243.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="286.0" text="Open text input from file">
          <font>
             <Font size="19.0" />
          </font>
@@ -92,12 +82,12 @@
             <ToggleGroup fx:id="inputs" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="inputEncodedFileRadio" layoutX="27.0" layoutY="420.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="369.0" text="Encoded input from file" toggleGroup="$inputs">
+      <RadioButton fx:id="inputEncodedFileRadio" layoutX="21.0" layoutY="409.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="369.0" text="Encoded input from file" toggleGroup="$inputs">
          <font>
             <Font size="19.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="inputFieldRadio" layoutX="28.0" layoutY="237.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" selected="true" text="Use input field" toggleGroup="$inputs">
+      <RadioButton fx:id="inputFieldRadio" layoutX="28.0" layoutY="185.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="177.0" selected="true" text="Use input field" toggleGroup="$inputs">
          <font>
             <Font size="19.0" />
          </font>
