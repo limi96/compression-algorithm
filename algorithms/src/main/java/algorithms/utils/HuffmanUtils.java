@@ -1,9 +1,6 @@
 package algorithms.utils;
 
-import java.util.PriorityQueue;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 import java.nio.ByteBuffer;
@@ -15,6 +12,16 @@ import java.io.DataOutputStream;
 
 public class HuffmanUtils {
         
+    public static byte[] combineTreeBytesWithLength(byte[] treeBytes, int treeLength) {
+        ByteBuffer buffer = ByteBuffer.allocate(treeBytes.length + 4);
+        ByteBuffer bufferForTreeLength = ByteBuffer.allocate(4);
+        bufferForTreeLength.putInt(treeBytes.length);
+        byte[] treeLengthBytes = bufferForTreeLength.array();
+        buffer.put(treeLengthBytes);
+        buffer.put(treeBytes);
+        return buffer.array();
+    }
+
     public static byte[] combineTreeDataWithMessage(byte[] treeData, byte[] messageData) {
         ByteBuffer buffer = ByteBuffer.allocate(treeData.length + messageData.length);
         buffer.put(treeData);
@@ -36,15 +43,7 @@ public class HuffmanUtils {
         return combineTreeBytesWithLength(byteOutputArray, byteOutputArray.length);
     }
 
-    public static byte[] combineTreeBytesWithLength(byte[] treeBytes, int treeLength) {
-        ByteBuffer buffer = ByteBuffer.allocate(treeBytes.length + 4);
-        ByteBuffer bufferForTreeLength = ByteBuffer.allocate(4);
-        bufferForTreeLength.putInt(treeBytes.length);
-        byte[] treeLengthBytes = bufferForTreeLength.array();
-        buffer.put(treeLengthBytes);
-        buffer.put(treeBytes);
-        return buffer.array();
-    }
+
 
     public static Node deserializeFromBytes(byte[] input) throws java.io.IOException {
         

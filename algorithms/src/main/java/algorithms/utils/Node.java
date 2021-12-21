@@ -28,10 +28,6 @@ public class Node implements Comparable<Node> {
         this.right = null; 
     }
 
-    public int getFreq() {
-        return this.freq; 
-    }
-
     public String getLetter() {
         return this.letter; 
     }

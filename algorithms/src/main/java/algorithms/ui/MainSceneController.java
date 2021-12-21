@@ -7,17 +7,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 
-import java.util.Properties;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import algorithms.Huffman;
+import algorithms.LZW;
 import algorithms.utils.FileUtils;
 import algorithms.utils.Node;
 
@@ -25,6 +23,10 @@ public class MainSceneController implements Initializable {
 
     private Ui application;
     private Huffman h; 
+    private LZW lzw; 
+    String input;
+    String output;
+    String fileName;
 
     @FXML
     public TextArea outputArea; 
@@ -64,17 +66,34 @@ public class MainSceneController implements Initializable {
 
     @FXML
     public TextField encodedNameField;
+
+    @FXML
+    public TextField lzwBitArea;
     
-    public boolean checkEmptyInputArea() {
-        if (inputArea.getText().isEmpty()) {
+    public boolean checkInputField() {
+        String input = inputArea.getText(); 
+
+        if (input.isEmpty()) {
             resultLabel.setText("Error!");
             resultArea.setText("INPUT FIELD CANNOT BE EMPTY!");
             return true;
+        }
+
+        if (!input.matches("[0-1]*") && decodeRadio.isSelected() && inputFieldRadio.isSelected()) {
+            resultLabel.setText("Error!");
+            resultArea.setText("WHEN DECODING INPUT FIELD MUST BE IN BINARY FORMAT!");
+            return true; 
         }
         return false; 
     }
 
     public boolean checkFileNameField() {        
+
+        if (encodeRadio.isSelected() && inputEncodedFileRadio.isSelected()) {
+            resultArea.setText("CANNOT ENCODE WHILE HAVE ENCODED INPUT FROM FILE RADIO SELECTED");
+            return true;
+        }
+
         if (inputTextFileRadio.isSelected() && inputNameField.getText().isEmpty()) {
             resultArea.setText("INPUT NAME FIELD CANNOT BE EMPTY!");
             return true;
@@ -127,10 +146,18 @@ public class MainSceneController implements Initializable {
         if (encodeRadio.isSelected()) { 
             h.encode(input); 
             output = h.getEncodedMessage(); 
-            huffmanCompressionPrints(input, output, false, "");
+            huffmanCompressionPrints(input, output, false, false, "");
         }
 
         else if (decodeRadio.isSelected()) {
+
+            if (inputFieldRadio.isSelected()) {
+                h.readEncodedInput(input, false);
+                input = h.getEncodedMessage();
+                Node rootNode = h.getRootNode() == null ? h.getInputRootNode() : h.getRootNode();
+                output = h.decode(rootNode, input); 
+                huffmanCompressionPrints(output, input, true, false, ""); 
+            }            
             
             if (inputEncodedFileRadio.isSelected()) {
 
@@ -139,37 +166,33 @@ public class MainSceneController implements Initializable {
                 if (checkEncodedInputFileName(fileName, ".hf")) {
                     return; 
                 }
-                                
-                h.readEncodedFile(fileName);
+                            
+                h.readEncodedInput(fileName, true);
                 input = h.getEncodedMessage(); 
                 Node rootNode = h.getRootNode() == null ? h.getInputRootNode() : h.getRootNode() ; 
                 output = h.decode(rootNode, input); 
-                
-                huffmanCompressionPrints(output, input, true, fileName);
+                huffmanCompressionPrints(output, input, true, true, fileName);
             }
             
         }
     }
 
-
-
-    public void writeOutputFile(String input, String outputName, boolean decode) throws java.io.IOException  {
-        if (!decode) {
-            h.writeEncodedFile(outputName);
-        } else {
-            FileUtils.writeTextFile(outputName, input);
-        }
+    public void handleSwitchFields() {
+        String temp = inputArea.getText();
+        inputArea.setText(outputArea.getText());
+        outputArea.setText(temp);
     }
 
-    public void huffmanCompressionPrints(String input, String output, boolean decode, String originalInputFileName) throws java.io.IOException {
+    public void huffmanCompressionPrints(String input, String output, boolean decode, boolean decodeFromFile, String originalInputFileName) throws java.io.IOException {
         
-        String text = "Compression results \n";
+        String text = "Compression results for the Huffman algorithm \n";
 
         String outputName = outputFileCheckBox.isSelected() ? outputName = outputNameField.getText() : "test";         
         
-        writeOutputFile(input, outputName, decode);
+        writeOutputFile(input, outputName, decode, true);
 
-        outputName = decode ? originalInputFileName : outputName + ".hf"; 
+        outputName = decodeFromFile ? originalInputFileName : outputName + ".hf"; 
+        output = h.getFullEncodedMessage();
 
         text += 
         ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 8) + "\n" + 
@@ -181,6 +204,7 @@ public class MainSceneController implements Initializable {
         Double compRateHuffmanNoTree = ((double) (huffmanByteSize - h.getTreeData().length) / inputByteSize) * 100;
 
         text += 
+        ("Original input File size \t\t\t (in bytes) : \t" + inputByteSize) + "\n" + 
         ("Huffman Compressed File size \t (in bytes) : \t" + huffmanByteSize) + "\n" + 
         ("Huffman Tree File size \t\t\t (in bytes) : \t" + h.getTreeData().length) + "\n" + 
         ("Huffman Message File size \t\t (in bytes) : \t" + h.getMessageData().length) + "\n" + 
@@ -188,6 +212,165 @@ public class MainSceneController implements Initializable {
         ("Compression rate Without Tree \t\t\t: \t" + String.format("%.2f",compRateHuffmanNoTree) + " %") + "\n";
 
         setCompressionResultArea(input, output, text, decode);
+        huffmanPerformancePrints(outputName);
+    }
+
+    public void huffmanPerformancePrints(String outputName) throws java.io.IOException {
+        String text = resultArea.getText() + "\n\n\n";
+
+        long start = System.nanoTime(); 
+        h.encode(input);
+        long end = System.nanoTime();
+        text += "Encoding the input \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+
+        start = System.nanoTime(); 
+        writeOutputFile(input, "performanceTest", false, true);
+        end = System.nanoTime();
+        text += "Writing the file \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+
+        start = System.nanoTime(); 
+        h.readEncodedInput("performanceTest.hf", true);
+        end = System.nanoTime();
+        text += "Reading the file \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+        
+        Node rootNode = h.getRootNode() == null ? h.getInputRootNode() : h.getRootNode() ; 
+        start = System.nanoTime(); 
+        output = h.decode(rootNode, input); 
+        end = System.nanoTime();
+        text += "Decoding the file \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+        
+        resultArea.setText(text); 
+    }
+
+    public void lzwPerformancePrints(String outputName) throws java.io.IOException {
+        String text = resultArea.getText() + "\n\n\n\n\n\n";
+
+        long start = System.nanoTime(); 
+        lzw.compress(input);
+        long end = System.nanoTime();
+        text += "Encoding the input \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+
+        start = System.nanoTime(); 
+        writeOutputFile(input, "performanceTest", false, false);
+        end = System.nanoTime();
+        text += "Writing the file \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+
+        start = System.nanoTime(); 
+        lzw.readLZWFile("performanceTest.lzw");
+        end = System.nanoTime();
+        text += "Reading the file \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+        
+        ArrayList<Integer> inputEncoded = lzw.getEncoded();
+        start = System.nanoTime(); 
+        output = lzw.uncompress(inputEncoded); 
+        end = System.nanoTime();
+        text += "Decoding the file \t :"  + (end-start)/1E6 + " ms" + "\n"; 
+        
+        resultArea.setText(text); 
+    }
+
+
+    public boolean checkBitLength() {
+        String input = lzwBitArea.getText(); 
+        
+        if (!input.matches("[0-9]*")) {
+            resultLabel.setText("Error!");
+            resultArea.setText("BitLength MUST BE A NUMBER"); 
+            return true; 
+        }
+        
+        int inputBitLength = Integer.parseInt(input);
+        
+        if (inputBitLength < 8 || inputBitLength > 32) {
+            resultLabel.setText("Error!");
+            resultArea.setText("BitLength for LZW must be between 8 and 32 for the algorithm to work properly!"); 
+            return true; 
+        }
+
+        lzw.setBitLength(inputBitLength);
+        return false; 
+    }
+    
+    @FXML
+    public void handleLZW(ActionEvent event) throws java.io.IOException {
+
+        ArrayList<Integer> inputEncoded = new ArrayList<>();
+
+        if (handleInitiationFailed() || checkBitLength()) {
+            return; 
+        }
+
+        if (encodeRadio.isSelected()) { 
+            
+            lzw.compress(input);
+            
+            lzwCompressionPrints(input, output, false, false, "");
+        }
+
+        else if (decodeRadio.isSelected()) {
+
+            if (inputFieldRadio.isSelected()) {
+                lzw.decodeLZWEncodedString(input);
+                inputEncoded = lzw.getEncoded();
+                output = lzw.uncompress(inputEncoded);
+                lzwCompressionPrints(output, input, true, false, "");
+            }
+
+            if (inputEncodedFileRadio.isSelected()) {
+
+                fileName = encodedNameField.getText();
+                
+                if (checkEncodedInputFileName(fileName, ".lzw")) {
+                    return; 
+                }
+                
+                lzw.readLZWFile(fileName);
+                inputEncoded = lzw.getEncoded();
+                output = lzw.uncompress(inputEncoded);
+                lzwCompressionPrints(output, input, true, true, fileName);
+            }
+        }
+
+    }
+    
+    public void lzwCompressionPrints(String input, String output, boolean decode, boolean decodeFromFile, String originalInputFileName) throws java.io.IOException {
+        
+        String text = "Compression results for the LZW algorithm\n";
+
+        String outputName = outputFileCheckBox.isSelected() ? outputName = outputNameField.getText() : "test";     
+        
+        writeOutputFile(input, outputName, decode, false);
+        output = lzw.getEncodedAsBits();
+        
+        outputName = decodeFromFile ? originalInputFileName : outputName + ".lzw"; 
+
+        text += 
+        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 8) + "\n" + 
+        ("Output Message length \t\t\t (in bits) : \t" + output.length()) + "\n";
+        
+        long inputByteSize = input.getBytes().length; 
+        long lzwByteSize = FileUtils.readFile(outputName).length;
+        Double compRateLZW = ((double) lzwByteSize / inputByteSize) * 100;
+
+        text += 
+        ("Original input File size \t\t\t (in bytes) : \t" + inputByteSize) + "\n" + 
+        ("LZW Compressed File size \t\t (in bytes) : \t" + lzwByteSize) + "\n" + 
+        ("LZW compression rate \t\t\t\t\t: \t" + String.format("%.2f",compRateLZW) + " %") + "\n";
+
+        setCompressionResultArea(input, output, text, decode);
+        lzwPerformancePrints(outputName);
+    }
+
+    public void writeOutputFile(String input, String outputName, boolean decode, boolean huffman) throws java.io.IOException  {
+        if (!decode) {
+            if (huffman) {
+                h.writeEncodedFile(outputName);
+            }   else {
+                lzw.writeLZWFile(outputName);
+            }
+        } else {
+            FileUtils.writeTextFile(outputName, input);
+        }
     }
 
     public void setCompressionResultArea(String input, String output, String text, boolean decode) {
@@ -201,9 +384,6 @@ public class MainSceneController implements Initializable {
         outputArea.setText(output); 
     }
 
-    String input;
-    String output;
-    String fileName;
 
     @FXML
     public boolean handleInitiationFailed() {
@@ -228,7 +408,7 @@ public class MainSceneController implements Initializable {
         }        
 
         else if (inputFieldRadio.isSelected()){
-            if (checkEmptyInputArea()) {
+            if (checkInputField()) {
                 return true; 
             }
             input = inputArea.getText(); 
@@ -237,36 +417,9 @@ public class MainSceneController implements Initializable {
     }
 
     @FXML
-    public void handleLZW(ActionEvent event) throws java.io.IOException {
-
-        handleInitiationFailed();
-
-        if (encodeRadio.isSelected()) { 
-            h.encode(input); 
-            output = h.getEncodedMessage(); 
-            // huffmanCompressionPrints(input, output, false);
-        }
-
-        else if (decodeRadio.isSelected()) {
-            
-            if (inputEncodedFileRadio.isSelected()) {
-
-                fileName = encodedNameField.getText();
-                
-                if (checkEncodedInputFileName(fileName, ".hf")) {
-                    return; 
-                }
-                                
-                h.readEncodedFile(fileName);
-                input = h.getEncodedMessage(); 
-                Node rootNode = h.getRootNode() == null ? h.getInputRootNode() : h.getRootNode() ; 
-                output = h.decode(rootNode, input); 
-
-                // huffmanCompressionPrints(output, input, true);
-            }
-            
-        }
-
+    public void handleClearBoth(ActionEvent event) { 
+        inputArea.setText(""); 
+        outputArea.setText(""); 
     }
 
     @FXML
@@ -291,6 +444,7 @@ public class MainSceneController implements Initializable {
     @FXML 
     public void start() {
         h = new Huffman(); 
+        lzw = new LZW(); 
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.Arrays;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 
 import algorithms.utils.FileUtils;
 import algorithms.utils.HuffmanUtils;
@@ -23,50 +22,8 @@ public class Huffman {
     public static Node inputRootNode;
     public static byte[] messageData; 
     public static byte[] treeData;
+    public static byte[] outputBytes; 
         
-    public static void main(String[] args) throws java.io.IOException {
-        Huffman h = new Huffman(); 
-        String input = ""; 
-        // input = "abckjlaksdjflakds";
-        // input = FileUtils.textFileReaderOutput("100_KB_lorem.txt");
-        // input = FileUtils.fileReaderOutput("100_KB_repeating_lorem_ipsum.txt");
-        input = "omena"; 
-
-        long start = System.currentTimeMillis();
-
-        //create EncodedFile
-        // encodedMessage = h.encode(input);
-        // System.out.println("Encoded : " + encodedMessage);
-        // ArrayList<String> rootNodeToList = HuffmanUtils.serializeBFS(rootNode);
-        // System.out.println("Encode Root: " + rootNodeToList.toString());
-        // writeEncodedFile("huffmanTest");
-
-        //Reset encodedMessage
-        encodedMessage = ""; 
-        //Read file. EncodedMessage gets updated now
-
-        //It's using the rootNode for something...
-        h = new Huffman(); 
-        rootNode = null; 
-
-
-        // System.out.println("inputRootNode : " + inputRootNode.toString());
-        h.readEncodedFile("huffmanTest.hf");
-        
-        ArrayList<String> inputRootNodeToList = HuffmanUtils.serializeBFS(inputRootNode);
-
-        // Nope even this ain't working lmao
-        // ArrayList<String> inputRootNodeToList = HuffmanUtils.serializeBFS(h.getInputRootNode());
-
-        System.out.println("Decode Root: " + inputRootNodeToList.toString());
-        System.out.println("Encoded : " + encodedMessage);
-
-        String output = h.decode(h.getInputRootNode(), encodedMessage); 
-        System.out.println("ENCODE-DECODE OUTCOME : " + input.equals(output));
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken : " + (end-start)/1E3 + " s");
-    }
-
     //Encodes the message according to the given HuffmanCodes
     //Requires the original message as input
 
@@ -95,13 +52,13 @@ public class Huffman {
 
     public String constructCodedMessage(String input) {
 
-        StringBuilder messageBuilder = new StringBuilder(); 
+        StringBuffer messageBuffer = new StringBuffer(); 
         
         for (int i = 0; i < input.length(); i++) { 
-            messageBuilder.append(huffmanCodes.get("" + input.charAt(i)));
+            messageBuffer.append(huffmanCodes.get("" + input.charAt(i)));
         }
 
-        return new String(messageBuilder); 
+        return new String(messageBuffer); 
     }
 
     public static PriorityQueue<Node> createHuffmanHeap(String input) {
@@ -171,21 +128,21 @@ public class Huffman {
 
     public void writeEncodedFile(String outputName) throws java.io.IOException {
         
-        // byte[] messageData = FileUtils.bitsToByte(encodedMessage);        
-        // byte[] treeData = HuffmanUtils.serializeToBytes(rootNode);
-
         messageData = FileUtils.bitsToByte(encodedMessage);        
         treeData = HuffmanUtils.serializeToBytes(rootNode);
 
-        byte[] outputBytes = HuffmanUtils.combineTreeDataWithMessage(treeData, messageData);
+        outputBytes = HuffmanUtils.combineTreeDataWithMessage(treeData, messageData);
 
         //Write File
         FileUtils.writeFile(outputName+".hf", outputBytes);
     }
 
-    public void readEncodedFile(String inputName) throws java.io.IOException {
+    
+
+    public void readEncodedInput(String input, boolean fromFile) throws java.io.IOException {
         // Read File 
-        byte[] inputBytes = FileUtils.readFile(inputName);
+        byte[] inputBytes = fromFile ? FileUtils.readFile(input) : FileUtils.bitsToByte(input) ;
+
         byte[] treeLengthData = Arrays.copyOfRange(inputBytes, 0, 4);
 
         ByteBuffer bufferForTreeLengthData = ByteBuffer.wrap(treeLengthData);
@@ -225,6 +182,10 @@ public class Huffman {
 
     public byte[] getMessageData() {
         return messageData; 
+    }
+
+    public String getFullEncodedMessage() {
+        return FileUtils.bytesToBits(outputBytes);
     }
 }    
 

@@ -1,57 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import algorithms.utils.Node;
+import java.util.PriorityQueue;
 
-import static org.junit.Assert.*;
-/**
- *
- * @author limi
- */
 public class NodeTest {
     
+    Node firstNode;
+    Node secondNode; 
+    Node thirdNode; 
     
-    Node test1;
-    Node test2; 
-    
-    public NodeTest() {
-    }
-    
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
     @Before
     public void setUp() {
-        test1 = new Node("a", 12);        
-        test2 = new Node("b", 10, test1, null);    
+        firstNode = new Node("a", 12);        
+        secondNode = new Node("b", 10, firstNode, null); 
+        thirdNode = new Node("c");    
     }
 
-    @After
-    public void tearDown() {
-    }
     @Test 
     public void correctConstruction() {
-        assertEquals("a", test1.letter);
-        assertEquals("b", test2.letter);
-        assertEquals(12, test1.freq);
-        assertEquals(10, test2.freq);
-        assertEquals(test1, test2.left);
-        assertEquals(null, test2.right);
+        assertEquals("a", firstNode.getLetter());
+        assertEquals("b", secondNode.getLetter());
+        assertEquals(12, firstNode.freq);
+        assertEquals(10, secondNode.freq);
+        
+        assertEquals(firstNode, secondNode.getLeftNode());
+        assertEquals(null, secondNode.getRightNode());
+
+        assertEquals("c", thirdNode.getLetter());
+        assertEquals(-100000, thirdNode.freq);
+        assertEquals(null, thirdNode.getRightNode());
+        assertEquals(null, thirdNode.getLeftNode());
+
+        assertEquals("c : -100000", thirdNode.toString());
+    }
+
+    @Test
+    public void testSettingLeftAndRightNodes() {
+        firstNode.setLeftNode(secondNode);
+        firstNode.setRightNode(thirdNode); 
+        assertEquals(null, firstNode.getLeftNode().getRightNode());
+        assertEquals(firstNode, firstNode.getLeftNode().getLeftNode());
     }
     
+    @Test
+    public void testComparable() {
+        assertEquals(2, firstNode.compareTo(secondNode)); 
+        assertEquals(100010, secondNode.compareTo(thirdNode)); 
+        assertEquals(-100012, thirdNode.compareTo(firstNode)); 
+
+        PriorityQueue<Node> heap = new PriorityQueue<>(); 
+        heap.add(secondNode); 
+        heap.add(thirdNode); 
+        heap.add(firstNode); 
+
+        assertEquals(thirdNode, heap.poll()); 
+        assertEquals(secondNode, heap.poll()); 
+        assertEquals(firstNode, heap.poll()); 
+    }    
 }

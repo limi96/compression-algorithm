@@ -1,19 +1,13 @@
 package algorithms.utils; 
 
-import java.io.File; 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.nio.charset.StandardCharsets;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 
 public class FileUtils {
 
-    public static byte[] byteArray;
-    public static String stringInput; 
     
     public static void writeFile(String outputName, byte[] bytes) throws java.io.IOException {
         FileOutputStream outputStream = new FileOutputStream("./" + outputName);
@@ -29,16 +23,15 @@ public class FileUtils {
     }
 
     public static String readTextFile(String fileName) {
-        StringBuffer inputBuffer = new StringBuffer(); 
+        String output = ""; 
     
         try {
-            Files.lines(Paths.get(fileName)).forEach(newLine -> inputBuffer.append(newLine));
+            output = Files.readString(Paths.get(fileName));
         } catch (Exception e) {
             System.out.println("Error! Could not read file : " + e.getMessage());
         }        
 
-        stringInput = new String(inputBuffer); 
-        return stringInput; 
+        return output; 
     }
 
     public static void writeTextFile(String fileName, String output) {
@@ -86,7 +79,7 @@ public class FileUtils {
     
     public static String bytesToBits(byte[] bytes ) {
 
-        StringBuilder bitBuilder = new StringBuilder(); 
+        StringBuffer bitBuffer = new StringBuffer(); 
 
         int lastLength = bytes[0];
         int bitLength = 8; 
@@ -100,21 +93,21 @@ public class FileUtils {
             }
 
             for (int j = 7; j >= 8-bitLength; j--) {  
-                bitBuilder.append((b >> j) & 1);
+                bitBuffer.append((b >> j) & 1);
             }        
             
         }
                 
-        return new String(bitBuilder);
+        return new String(bitBuffer);
     }
 
     public static String intToBits(int input, int bitLength) { 
-        StringBuilder bitBuilder = new StringBuilder(); 
+        StringBuffer bitBuffer = new StringBuffer(); 
 
         for (int j = bitLength-1; j >= 0; j--) {  
-            bitBuilder.append((input >> j) & 1);
+            bitBuffer.append((input >> j) & 1);
         }        
-        return bitBuilder.toString();
+        return bitBuffer.toString();
     }
     
     public static int bitsToInt(String bits) {
@@ -130,17 +123,6 @@ public class FileUtils {
     
         return output; 
     }
-
-    public static byte[] getByteArray() {
-        byteArray = stringInput.getBytes(StandardCharsets.UTF_8);
-        return byteArray; 
-    }
-    public static void main(String[] args) {
-
-    }
-
-
-
 }
 
 

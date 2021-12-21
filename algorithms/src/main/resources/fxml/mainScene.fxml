@@ -12,16 +12,16 @@
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="1364.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algorithms.ui.MainSceneController">
    <children>
-      <Button layoutX="17.0" layoutY="112.0" mnemonicParsing="false" onAction="#handleHuffman" prefHeight="49.0" prefWidth="151.0" text="Huffman">
+      <Button layoutX="17.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleHuffman" prefHeight="49.0" prefWidth="151.0" text="Huffman">
          <font>
             <Font size="26.0" />
          </font></Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="555.0" layoutY="3.0" prefHeight="134.0" prefWidth="536.0" text="Huffman and LZW">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="393.0" layoutY="-15.0" prefHeight="134.0" prefWidth="536.0" text="Huffman and LZW">
          <font>
             <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="175.0" layoutY="112.0" mnemonicParsing="false" onAction="#handleLZW" prefHeight="49.0" prefWidth="151.0" text="LZW">
+      <Button layoutX="185.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleLZW" prefHeight="49.0" prefWidth="151.0" text="LZW">
          <font>
             <Font size="26.0" />
          </font></Button>
@@ -37,14 +37,14 @@
          </font>
       </Label>
       <TextArea fx:id="outputArea" layoutX="357.0" layoutY="479.0" prefHeight="255.0" prefWidth="459.0" wrapText="true" />
-      <Button layoutX="698.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleClearInput" prefHeight="36.0" prefWidth="112.0" text="Clear Field" />
-      <Button layoutX="701.0" layoutY="435.0" mnemonicParsing="false" onAction="#handleClearOutput" prefHeight="36.0" prefWidth="112.0" text="Clear field" />
+      <Button layoutX="698.0" layoutY="435.0" mnemonicParsing="false" onAction="#handleClearInput" prefHeight="36.0" prefWidth="112.0" text="Clear Field" />
+      <Button layoutX="704.0" layoutY="734.0" mnemonicParsing="false" onAction="#handleClearOutput" prefHeight="36.0" prefWidth="112.0" text="Clear field" />
       <CheckBox fx:id="outputFileCheckBox" layoutX="27.0" layoutY="528.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="314.0" text="Name output file">
          <font>
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <RadioButton fx:id="encodeRadio" layoutX="33.0" layoutY="54.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="112.0" selected="true" text="Encode">
+      <RadioButton fx:id="encodeRadio" layoutX="33.0" layoutY="16.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="112.0" selected="true" text="Encode">
          <font>
             <Font size="19.0" />
          </font>
@@ -52,7 +52,7 @@
             <ToggleGroup fx:id="mode" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="decodeRadio" layoutX="190.0" layoutY="48.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Decode" toggleGroup="$mode">
+      <RadioButton fx:id="decodeRadio" layoutX="193.0" layoutY="11.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="142.0" text="Decode" toggleGroup="$mode">
          <font>
             <Font size="19.0" />
          </font>
@@ -92,5 +92,9 @@
             <Font size="19.0" />
          </font>
       </RadioButton>
+      <TextField fx:id="lzwBitArea" layoutX="240.0" layoutY="146.0" prefHeight="13.0" prefWidth="49.0" text="12" />
+      <Label layoutX="33.0" layoutY="140.0" prefHeight="36.0" prefWidth="187.0" text="Set LZW BitLength (default 12) Min 8 Max 32" wrapText="true" />
+      <Button layoutX="469.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleSwitchFields" prefHeight="36.0" prefWidth="209.0" text="Switch inputs and ouptuts" />
+      <Button layoutX="698.0" layoutY="122.0" mnemonicParsing="false" onAction="#handleClearBoth" prefHeight="36.0" prefWidth="112.0" text="Clear Both" />
    </children>
 </AnchorPane>

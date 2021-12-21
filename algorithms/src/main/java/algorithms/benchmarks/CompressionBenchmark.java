@@ -13,14 +13,13 @@ public class CompressionBenchmark {
 
         String inputString = ""; 
         inputString = FileUtils.readTextFile(fileName);
-        long inputByteSize = FileUtils.getByteArray().length; 
+        long inputByteSize = inputString.getBytes().length; 
 
         String encodedMessage = h.encode(inputString);
         
-        h.writeEncodedFile("huffmanCompressionTest.hf");
+        h.writeEncodedFile("huffmanCompressionTest");
         
         long huffmanByteSize = FileUtils.readFile("huffmanCompressionTest.hf").length;
-
         Double compRateHuffman = ((double) huffmanByteSize / inputByteSize)*100;
         Double compRateHuffmanNoTree = ((double) (huffmanByteSize - h.getTreeData().length) / inputByteSize) * 100;
 
@@ -44,10 +43,10 @@ public class CompressionBenchmark {
 
         String inputString = ""; 
         inputString = FileUtils.readTextFile(fileName);
-        long inputByteSize = FileUtils.getByteArray().length; 
+        long inputByteSize = inputString.getBytes().length; 
 
         lzw.compress(inputString); 
-        lzw.writeLZWFile("lzwCompressionTest.lzw");
+        lzw.writeLZWFile("lzwCompressionTest");
         
         byte[] outputFile = FileUtils.readFile("lzwCompressionTest.lzw");
 
@@ -73,13 +72,13 @@ public class CompressionBenchmark {
         // huffmanTest("ASCII_256.txt");
         // huffmanTest("Large Lorem.txt");
     
+        // lzwTest("100_KB_lorem.txt");
         // lzwTest("100_KB_repeating_lorem_ipsum.txt");
         // lzwTest("100_KB_cScSc.txt");
+        // lzwTest("Large Lorem.txt");
         // lzwTest("ASCII_256.txt");
         
         // long start = System.nanoTime(); 
-        // lzwTest("100_KB_lorem.txt");
-        // lzwTest("Large Lorem.txt");
         // long end = System.nanoTime();
         // System.out.println("Time taken: " + (end-start)/1E9 + " s");
     }
