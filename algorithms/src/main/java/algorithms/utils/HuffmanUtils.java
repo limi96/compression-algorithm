@@ -11,7 +11,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 public class HuffmanUtils {
-        
+    
+    /**
+     * Creates a new byte[] containing the treeData as well as the length of the tree data as a 32-bit (4-byte) java int
+     * @param byte[] treeBytes containing treeData
+     * @param int treeLength, length of the treeBytes array
+     * @return resulting byte[]
+     */
+
     public static byte[] combineTreeBytesWithLength(byte[] treeBytes, int treeLength) {
         ByteBuffer buffer = ByteBuffer.allocate(treeBytes.length + 4);
         ByteBuffer bufferForTreeLength = ByteBuffer.allocate(4);
@@ -22,6 +29,12 @@ public class HuffmanUtils {
         return buffer.array();
     }
 
+    /**
+     * Creates a byte array that contains both tree data and message data
+     * @param byte[] treeData, byte array containing tree data
+     * @param byte[] messageData, byte array containing message data
+     * @return combined byte array
+     */
     public static byte[] combineTreeDataWithMessage(byte[] treeData, byte[] messageData) {
         ByteBuffer buffer = ByteBuffer.allocate(treeData.length + messageData.length);
         buffer.put(treeData);
@@ -29,6 +42,12 @@ public class HuffmanUtils {
         return buffer.array(); 
     }
 
+    /**
+     * Converts a given huffman node tree into a byte array, in order for it to be saved as a file
+     * Utilizes the method serializeBFS to create an ArrayList<String>
+     * @param Node root, root Node of the huffman tree
+     * @return the resulting byte[] containing tree data along with length of the byte array
+     */
     public static byte[] serializeToBytes(Node root) throws java.io.IOException {
 
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -43,8 +62,12 @@ public class HuffmanUtils {
         return combineTreeBytesWithLength(byteOutputArray, byteOutputArray.length);
     }
 
-
-
+    /**
+     * Creates a root node for a huffman tree from a byte array input.
+     * @param byte[] input, the byte array infromation of a serialized huffman node tree
+     * @return huffman tree root node created from the serialized tree information
+     * @throws java.io.IOException, file IOExceptions
+     */
     public static Node deserializeFromBytes(byte[] input) throws java.io.IOException {
         
         ByteArrayInputStream byteInput = new ByteArrayInputStream(input);
@@ -65,6 +88,32 @@ public class HuffmanUtils {
         return node; 
     }
 
+    /**
+     * Uses the root node of the Huffman tree and serializes into an ArrayList
+     * Implements BFS
+     */
+    public static ArrayList<String> serializeBFS(Node root) {
+        ArrayList<String> result = new ArrayList<>();
+        LinkedList<Node> queue = new LinkedList<>();
+
+        queue.addFirst(root);
+        
+        while (!queue.isEmpty()) {
+            Node first = queue.pollFirst(); 
+            if (first == null || first.letter.equals("null")) { 
+                result.add("null");
+            } else {
+                result.add(first.getLetter());   
+                queue.addLast(first.getLeftNode());
+                queue.addLast(first.getRightNode());
+            }
+        }
+        return result; 
+    }
+    /**
+     * Uses the serialized ArrayList<String> format of a Huffman node tree to convert into a root node
+     * implements BFS
+     */
     public static Node deserializeBFS(ArrayList<String> serializedInput) {
         
         LinkedList<Node> queue = new LinkedList<>();
@@ -97,23 +146,6 @@ public class HuffmanUtils {
         return rootNode;
     }
 
-    public static ArrayList<String> serializeBFS(Node root) {
-        ArrayList<String> result = new ArrayList<>();
-        LinkedList<Node> queue = new LinkedList<>();
 
-        queue.addFirst(root);
-        
-        while (!queue.isEmpty()) {
-            Node first = queue.pollFirst(); 
-            if (first == null || first.letter.equals("null")) { 
-                result.add("null");
-            } else {
-                result.add(first.getLetter());   
-                queue.addLast(first.getLeftNode());
-                queue.addLast(first.getRightNode());
-            }
-        }
-        return result; 
-    }
 
 }

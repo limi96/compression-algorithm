@@ -68,19 +68,18 @@ public class CompressionBenchmark {
 
         huffmanTest("100_KB_lorem.txt");
         huffmanTest("artofwar.txt");
+        huffmanTest("warandpeace.txt");
         huffmanTest("100_KB_cScSc.txt");
         huffmanTest("ASCII_256.txt");
         huffmanTest("Large Lorem.txt");
     
         lzwTest("100_KB_lorem.txt");
         lzwTest("artofwar.txt");
+        lzwTest("warandpeace.txt");
         lzwTest("100_KB_cScSc.txt");
         lzwTest("Large Lorem.txt");
         lzwTest("ASCII_256.txt");
-        
-        // long start = System.nanoTime(); 
-        // long end = System.nanoTime();
-        // System.out.println("Time taken: " + (end-start)/1E9 + " s");
+    
     }
 
 }

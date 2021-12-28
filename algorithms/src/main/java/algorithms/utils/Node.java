@@ -1,6 +1,11 @@
 package algorithms.utils; 
 
-//Simple node datastructure for the PriorityQueue and Huffman Tree
+/**
+ * Simple node datastructure for the PriorityQueue and Huffman Tree required for encoding and decoding 
+ * Each node has a letter that it represents as well as its frequency. 
+ * Additionally, each node has two children in order to form the tree as a Binary Tree. 
+ */
+
 public class Node implements Comparable<Node> {
     public String letter;
     public int freq; 
@@ -48,6 +53,9 @@ public class Node implements Comparable<Node> {
         return this.right; 
     }
 
+    /**
+     * Comparable for the heap datastructure implemented a PriorityQueue for Huffman encoding and decoding
+     */
     @Override
     public int compareTo(Node other) {
         return this.freq - other.freq;

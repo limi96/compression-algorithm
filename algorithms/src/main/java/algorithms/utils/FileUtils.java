@@ -8,13 +8,25 @@ import java.io.FileWriter;
 
 public class FileUtils {
 
-    
+    /**
+     * Write a file output after encoding an input
+     * 
+     * @param outputName Desired file name for the output
+     * @param bytes Input byte array to be saved as a file
+     * @throws java.io.IOException
+     */
     public static void writeFile(String outputName, byte[] bytes) throws java.io.IOException {
         FileOutputStream outputStream = new FileOutputStream("./" + outputName);
         outputStream.write(bytes); 
         outputStream.close();
     }
 
+    /**
+     * Reads the file containing the encoded messages 
+     * @param inputName The name of the saved file
+     * @return A byte array of the data from the saved file
+     * @throws java.io.IOException
+     */
     public static byte[] readFile(String inputName) throws java.io.IOException {
         FileInputStream inputStream = new FileInputStream(inputName);
         byte[] byteArray = inputStream.readAllBytes(); 
@@ -22,6 +34,11 @@ public class FileUtils {
         return byteArray; 
     }
 
+    /**
+     * Constructs a String output given a text file
+     * @param fileName File name of the text file
+     * @return String output
+     */
     public static String readTextFile(String fileName) {
         String output = ""; 
     
@@ -33,19 +50,26 @@ public class FileUtils {
 
         return output; 
     }
-
-    public static void writeTextFile(String fileName, String output) {
+    /**
+     * Writes the given String input into a text file
+     * @param fileName The desired name of the output text file
+     * @param input String input
+     */
+    public static void writeTextFile(String fileName, String input) {
         try {
             FileWriter file = new FileWriter(fileName + ".txt"); 
-            file.write(output); 
+            file.write(input); 
             file.close();
         } catch (Exception e) {
             System.out.println("Error! Could not write file : " + e.getMessage());
         }
     }
     
-    
-
+    /**
+     * Converts the given binary String into a byte array
+     * @param input binary String
+     * @return resulting byte Array
+     */
     public static byte[] bitsToByte(String input) {
         int length = input.length();
         byte[] bytes = new byte[(int) Math.ceil(length / 8.0) + 1];
@@ -77,6 +101,11 @@ public class FileUtils {
         return bytes;
     }
     
+    /**
+     * Converts a given byte into a binary String with each byte encoded into 8 bits
+     * @param bytes Input byte array
+     * @return binary String 
+     */
     public static String bytesToBits(byte[] bytes) {
 
         StringBuffer bitBuffer = new StringBuffer(); 
@@ -94,13 +123,18 @@ public class FileUtils {
 
             for (int j = 7; j >= 8 - bitLength; j--) {  
                 bitBuffer.append((b >> j) & 1);
-            }        
-            
+            }                    
         }
                 
         return new String(bitBuffer);
     }
 
+    /**
+     * Converts the Java primitive data type int, from 32 bits to the desired bitLength
+     * @param input The given 32-bit int input
+     * @param bitLength The desired bitLength conversion
+     * @return binary String 
+     */
     public static String intToBits(int input, int bitLength) { 
         StringBuffer bitBuffer = new StringBuffer(); 
 
@@ -109,7 +143,11 @@ public class FileUtils {
         }        
         return bitBuffer.toString();
     }
-    
+    /**
+     * Converts a given bit back into a Java int of 32 bits. 
+     * @param bits binary String input
+     * @return int output
+     */
     public static int bitsToInt(String bits) {
 
         int output = 0; 
