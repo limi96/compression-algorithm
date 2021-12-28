@@ -24,6 +24,7 @@ public class MainSceneController implements Initializable {
     private Ui application;
     private Huffman h; 
     private LZW lzw; 
+    
     String input;
     String output;
     String fileName;
@@ -57,6 +58,9 @@ public class MainSceneController implements Initializable {
 
     @FXML
     public CheckBox outputFileCheckBox; 
+
+    @FXML
+    public CheckBox performanceChoiceBox; 
     
     @FXML
     public TextField inputNameField;
@@ -177,11 +181,7 @@ public class MainSceneController implements Initializable {
         }
     }
 
-    public void handleSwitchFields() {
-        String temp = inputArea.getText();
-        inputArea.setText(outputArea.getText());
-        outputArea.setText(temp);
-    }
+
 
     public void huffmanCompressionPrints(String input, String output, boolean decode, boolean decodeFromFile, String originalInputFileName) throws java.io.IOException {
         
@@ -195,7 +195,7 @@ public class MainSceneController implements Initializable {
         output = h.getFullEncodedMessage();
 
         text += 
-        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 8) + "\n" + 
+        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 16) + "\n" + 
         ("Output Message length \t\t\t (in bits) : \t" + output.length()) + "\n";
 
         long inputByteSize = input.getBytes().length; 
@@ -212,7 +212,10 @@ public class MainSceneController implements Initializable {
         ("Compression rate Without Tree \t\t\t: \t" + String.format("%.2f",compRateHuffmanNoTree) + " %") + "\n";
 
         setCompressionResultArea(input, output, text, decode);
-        huffmanPerformancePrints(outputName);
+        
+        if (performanceChoiceBox.isSelected()) {
+            huffmanPerformancePrints(outputName);
+        }
     }
 
     public void huffmanPerformancePrints(String outputName) throws java.io.IOException {
@@ -326,6 +329,7 @@ public class MainSceneController implements Initializable {
                 
                 lzw.readLZWFile(fileName);
                 inputEncoded = lzw.getEncoded();
+                input = lzw.getEncodedAsBits();
                 output = lzw.uncompress(inputEncoded);
                 lzwCompressionPrints(output, input, true, true, fileName);
             }
@@ -345,7 +349,7 @@ public class MainSceneController implements Initializable {
         outputName = decodeFromFile ? originalInputFileName : outputName + ".lzw"; 
 
         text += 
-        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 8) + "\n" + 
+        ("Input Message length \t\t\t (in bits) : \t"  + input.getBytes().length * 16) + "\n" + 
         ("Output Message length \t\t\t (in bits) : \t" + output.length()) + "\n";
         
         long inputByteSize = input.getBytes().length; 
@@ -358,7 +362,10 @@ public class MainSceneController implements Initializable {
         ("LZW compression rate \t\t\t\t\t: \t" + String.format("%.2f",compRateLZW) + " %") + "\n";
 
         setCompressionResultArea(input, output, text, decode);
-        lzwPerformancePrints(outputName);
+
+        if (performanceChoiceBox.isSelected()) {
+            lzwPerformancePrints(outputName);
+        }
     }
 
     public void writeOutputFile(String input, String outputName, boolean decode, boolean huffman) throws java.io.IOException  {
@@ -414,6 +421,13 @@ public class MainSceneController implements Initializable {
             input = inputArea.getText(); 
         }
         return false;
+    }
+
+    @FXML
+    public void handleSwitchFields() {
+        String temp = inputArea.getText();
+        inputArea.setText(outputArea.getText());
+        outputArea.setText(temp);
     }
 
     @FXML

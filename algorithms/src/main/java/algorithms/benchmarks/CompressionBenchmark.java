@@ -25,7 +25,7 @@ public class CompressionBenchmark {
 
         System.out.println("_____________Testing Huffman Compression Rates_____________");
         System.out.println("Filename                                    : " + fileName);
-        System.out.println("Input   Message length        (in bits)     : " + inputString.getBytes().length * 8);
+        System.out.println("Input   Message length        (in bits)     : " + inputString.getBytes().length * 16);
         System.out.println("Encoded Message length        (in bits)     : " + encodedMessage.length());
         System.out.println("Input File size               (in bytes)    : " + inputByteSize);
         System.out.println("Huffman Compressed File size  (in bytes)    : " + huffmanByteSize);
@@ -57,7 +57,7 @@ public class CompressionBenchmark {
 
         System.out.println("_____________Testing LZW Compression Rates_____________");
         System.out.println("Filename                                    : " + fileName);
-        System.out.println("Input   Message length        (in bits)     : " + inputString.getBytes().length*8);
+        System.out.println("Input   Message length        (in bits)     : " + inputString.getBytes().length * 16);
         System.out.println("Encoded Message length        (in bits)     : " + encodedMessageLength);
         System.out.println("Input File size               (in bytes)    : " + inputByteSize);
         System.out.println("LZW Compressed File size  (in bytes)        : " + lzwByteSize);
@@ -66,17 +66,17 @@ public class CompressionBenchmark {
     }
     public static void main(String[] args) throws java.io.IOException {
 
-        // huffmanTest("100_KB_lorem.txt");
-        // huffmanTest("100_KB_repeating_lorem_ipsum.txt");
-        // huffmanTest("100_KB_cScSc.txt");
-        // huffmanTest("ASCII_256.txt");
-        // huffmanTest("Large Lorem.txt");
+        huffmanTest("100_KB_lorem.txt");
+        huffmanTest("artofwar.txt");
+        huffmanTest("100_KB_cScSc.txt");
+        huffmanTest("ASCII_256.txt");
+        huffmanTest("Large Lorem.txt");
     
-        // lzwTest("100_KB_lorem.txt");
-        // lzwTest("100_KB_repeating_lorem_ipsum.txt");
-        // lzwTest("100_KB_cScSc.txt");
-        // lzwTest("Large Lorem.txt");
-        // lzwTest("ASCII_256.txt");
+        lzwTest("100_KB_lorem.txt");
+        lzwTest("artofwar.txt");
+        lzwTest("100_KB_cScSc.txt");
+        lzwTest("Large Lorem.txt");
+        lzwTest("ASCII_256.txt");
         
         // long start = System.nanoTime(); 
         // long end = System.nanoTime();

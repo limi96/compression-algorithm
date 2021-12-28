@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 
 public class Ui extends Application {
 
-    private Stage stage;
     private Scene mainScene;
 
     @Override
@@ -28,16 +27,9 @@ public class Ui extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = stage;
         stage.setTitle("Huffman and LZW");
-        setMainScene();
-        // setLoginScene();
-        // setRegisterScene();
-        stage.show();
-    }
-
-    public void setMainScene() {
         stage.setScene(mainScene);   
+        stage.show();
     }
 
     public static void main(String[] args) {

@@ -65,7 +65,7 @@
       <TextArea fx:id="resultArea" layoutX="845.0" layoutY="163.0" prefHeight="569.0" prefWidth="459.0" wrapText="true" />
       <TextField fx:id="outputNameField" layoutX="64.0" layoutY="664.0" promptText="ENTER FILE NAME" />
       <TextField fx:id="inputNameField" layoutX="72.0" layoutY="376.0" promptText="ENTER FILE NAME" />
-      <CheckBox layoutX="27.0" layoutY="700.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="330.0" text="Include Performance Test">
+      <CheckBox fx:id="performanceChoiceBox" layoutX="27.0" layoutY="700.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="330.0" text="Include Performance Test">
          <font>
             <Font size="19.0" />
          </font>

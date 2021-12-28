@@ -8,7 +8,7 @@ import algorithms.utils.FileUtils;
 
 public class LZW {
 
-    public static ArrayList<Integer> encoded = new ArrayList<>(); 
+    public static ArrayList<Integer> encoded; 
     public static String encodedBits = ""; 
     public static int bitLength = 12; 
     public static int maxDictSize = (int) Math.pow(2, bitLength); 
@@ -24,31 +24,23 @@ public class LZW {
     }
 
     public String compress(String input) {
-
         int inputChar = 256;        
         encoded = new ArrayList<>(); 
         HashMap<String, Integer> dict = createCompressDictionary(); 
-        
         String currentString = "" + input.charAt(0); 
         String nextChar = "";
 
         for (int i = 0; i < input.length(); i++) {
-
-            nextChar = i < input.length()-1 ? "" + input.charAt(i+1) : ""; 
-             
+            nextChar = i < input.length() - 1 ? "" + input.charAt(i + 1) : "";  
             String pattern = currentString + nextChar; 
             
             if (dict.containsKey(pattern)) {
                 currentString = pattern; 
-            }
-
-            else {
-
+            } else {
                 if (inputChar < maxDictSize) {
                     dict.put(pattern, inputChar);
                     inputChar++; 
                 }
-
                 encoded.add(dict.get(currentString));
                 currentString = nextChar; 
             }
@@ -63,8 +55,8 @@ public class LZW {
 
         outputBitBuffer = new StringBuffer();
 
-        for (int i = 0; i < input.size(); i++) { 
-            String bit = FileUtils.intToBits(input.get(i),bitLength);
+        for (int i = 0; i < input.size(); i++) {
+            String bit = FileUtils.intToBits(input.get(i), bitLength);
             outputBitBuffer.append(bit); 
         }
 
@@ -77,7 +69,7 @@ public class LZW {
         byte[] bytes = new byte[input.size()];
 
         bytes = FileUtils.bitsToByte(new String(outputBitBuffer));     
-        FileUtils.writeFile(outputName+".lzw", bytes);
+        FileUtils.writeFile(outputName + ".lzw", bytes);
     }
 
     
@@ -125,9 +117,9 @@ public class LZW {
         String decodedString = currentString; 
         int inputChar = 256; 
 
-        for (int i = 0; i < encoded.size()-1; i++) {
+        for (int i = 0; i < encoded.size() - 1; i++) {
 
-            int nextCode = encoded.get(i+1); 
+            int nextCode = encoded.get(i + 1); 
              
             //If dictionary doesn't contain the value of nextcode
             //It means we've encountered a reoccuring pattern (Its code value is higher than 256)
@@ -137,9 +129,7 @@ public class LZW {
             if (!dict.containsKey(nextCode)) {
                 currentString = dict.get(inputCode);
                 currentString += previousCharacter; 
-            }
-
-            else {
+            } else {
                 currentString = dict.get(nextCode); 
             }
             
@@ -157,8 +147,7 @@ public class LZW {
                 dict.put(inputChar, dict.get(inputCode) + previousCharacter);
                 inputChar++;
             }
-                inputCode = nextCode;
-
+            inputCode = nextCode;
         }
         return outputBuffer.toString(); 
         // return decodedString;

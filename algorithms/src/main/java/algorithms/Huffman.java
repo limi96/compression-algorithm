@@ -98,29 +98,27 @@ public class Huffman {
     }
 
     public String decode(Node currentNode, String message) {
-        String decodedMessage = "";
 
+        StringBuffer outputBuffer = new StringBuffer(); 
         //Go through each of the 0s and 1s along the tree until we find a character
         for (int i = 0; i < message.length(); i++) { 
             String c = message.charAt(i) + ""; 
 
             if (c.equals("1")) {
                 currentNode = currentNode.right;
-            }
-    
-            else if (c.equals("0")) {
+            } else if (c.equals("0")) {
                 currentNode = currentNode.left;
             }
 
             //If a character is found, add it to the decoded message
             //Then return back to the root 
             if (currentNode.left == null && currentNode.right == null && currentNode.letter != null) {
-                decodedMessage += currentNode.letter;
+                outputBuffer.append(currentNode.letter); 
                 currentNode = inputRootNode; 
             }
         }
 
-        return decodedMessage;
+        return outputBuffer.toString();
     } 
 
 
@@ -134,22 +132,22 @@ public class Huffman {
         outputBytes = HuffmanUtils.combineTreeDataWithMessage(treeData, messageData);
 
         //Write File
-        FileUtils.writeFile(outputName+".hf", outputBytes);
+        FileUtils.writeFile(outputName + ".hf", outputBytes);
     }
 
     
 
     public void readEncodedInput(String input, boolean fromFile) throws java.io.IOException {
         // Read File 
-        byte[] inputBytes = fromFile ? FileUtils.readFile(input) : FileUtils.bitsToByte(input) ;
+        byte[] inputBytes = fromFile ? FileUtils.readFile(input) : FileUtils.bitsToByte(input);
 
         byte[] treeLengthData = Arrays.copyOfRange(inputBytes, 0, 4);
 
         ByteBuffer bufferForTreeLengthData = ByteBuffer.wrap(treeLengthData);
         int treeLength = bufferForTreeLengthData.getInt();
 
-        treeData = Arrays.copyOfRange(inputBytes, 4, 4+treeLength);
-        messageData = Arrays.copyOfRange(inputBytes, 4+treeLength, inputBytes.length);
+        treeData = Arrays.copyOfRange(inputBytes, 4, 4 + treeLength);
+        messageData = Arrays.copyOfRange(inputBytes, 4 + treeLength, inputBytes.length);
         encodedMessage = FileUtils.bytesToBits(messageData); 
         inputRootNode = HuffmanUtils.deserializeFromBytes(treeData);
     }

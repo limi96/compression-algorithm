@@ -2,123 +2,137 @@ package algorithms.benchmarks;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import algorithms.Huffman;
 import algorithms.LZW;
 import algorithms.utils.FileUtils;
+import algorithms.utils.Node;
 
 
 public class PerformanceBenchmark {
 
-    public static int reps = 15; 
+    public static int reps = 10; 
+    public static Huffman h = new Huffman(); 
+    public static LZW lzw = new LZW(); 
+    public static long start;
+    public static long end;  
+    public static HashMap<String, HashMap<String, ArrayList<Double>>> results = new HashMap<>();
+     
 
-    Huffman h; 
-    LZW lzw; 
-    FileUtils fileReader;
+    public static void testingHuffman(String testString) throws java.io.IOException {
 
-    public void initialize() {
-        h = new Huffman();
-    }
-
-    public static void encodingTime(String testString, boolean testHuffman, boolean testLZW) {
-        
-        Huffman h = new Huffman();
-        LZW lzw = new LZW(); 
-
-        String testInputString = FileUtils.readTextFile("test_files/" + testString);
-        
-        long start = 0;
-        long end   = 0; 
-
-        String algorithm = testHuffman ? "Huffman" : "LZW";
-
-        // if (testHuffman && testLZW) { algorithm = "both"; }
-
-        ArrayList<Double> resultsHuffman = new ArrayList<>();
-        ArrayList<Double> resultsLZW     = new ArrayList<>();
+        String input = FileUtils.readTextFile("test_files/" + testString);
+        HashMap<String, ArrayList<Double>> resultsHuffman = new HashMap<>(); 
+        resultsHuffman.put("encode", new ArrayList<>());
+        resultsHuffman.put("decode", new ArrayList<>());
+        resultsHuffman.put("writeFile", new ArrayList<>());
+        resultsHuffman.put("readFile", new ArrayList<>());
 
         for (int i = 0; i < reps; i++) { 
-            if (testHuffman) {
-                start = System.nanoTime();
-                h.encode(testInputString);
-                end = System.nanoTime(); 
+            start = System.nanoTime();
+            h.encode(input);
+            end = System.nanoTime(); 
+            resultsHuffman.get("encode").add((end-start) + 0.0);
 
-                addResult(start, end, resultsHuffman);
-            }
+            start = System.nanoTime(); 
+            h.writeEncodedFile("PerformanceBenchHuffman");
+            end = System.nanoTime(); 
+            resultsHuffman.get("writeFile").add((end-start) + 0.0);
 
-            else if (testLZW) {
-                start = System.nanoTime();
-                lzw.compress(testInputString);
-                end = System.nanoTime(); 
-                
-                addResult(start, end, resultsLZW);
-            }
+            start = System.nanoTime(); 
+            h.readEncodedInput("PerformanceBenchHuffman.hf", true);
+            end = System.nanoTime(); 
+            resultsHuffman.get("readFile").add((end-start) + 0.0);
+
+            Node inputRootNode = h.getInputRootNode(); 
+            String inputMessage = h.getEncodedMessage(); 
+
+            start = System.nanoTime(); 
+            h.decode(inputRootNode, inputMessage); 
+            end = System.nanoTime(); 
+            resultsHuffman.get("decode").add((end-start) + 0.0);
         }       
-        processResults(resultsHuffman, "Huffman", "encoding", testString);
-        processResults(resultsHuffman, "LZW", "encoding", testString);
+        processResultList(testString, resultsHuffman);
+        results.put(testString, resultsHuffman); 
     }
 
-    public static void addResult(long start, long end, ArrayList<Double> list) {
-        double result = (end - start) / 1E6;
-        list.add(Double.parseDouble(String.format("%.2f",result)));
+    public static void testingLZW(String testString) throws java.io.IOException {
+
+        String input = FileUtils.readTextFile("test_files/" + testString);
+        HashMap<String, ArrayList<Double>> resultsLZW = new HashMap<>(); 
+        resultsLZW.put("encode", new ArrayList<>());
+        resultsLZW.put("decode", new ArrayList<>());
+        resultsLZW.put("writeFile", new ArrayList<>());
+        resultsLZW.put("readFile", new ArrayList<>());
+
+        for (int i = 0; i < reps; i++) { 
+            start = System.nanoTime();
+            lzw.compress(input);
+            end = System.nanoTime(); 
+            resultsLZW.get("encode").add((end-start) + 0.0);
+
+            start = System.nanoTime(); 
+            lzw.writeLZWFile("PerformanceBenchLZW");
+            end = System.nanoTime(); 
+            resultsLZW.get("writeFile").add((end-start) + 0.0);
+
+            start = System.nanoTime(); 
+            lzw.readLZWFile("PerformanceBenchLZW.lzw");
+            end = System.nanoTime(); 
+            resultsLZW.get("readFile").add((end-start) + 0.0);
+
+            ArrayList<Integer> inputEncoded = lzw.getEncoded(); 
+
+            start = System.nanoTime(); 
+            lzw.uncompress(inputEncoded); 
+            end = System.nanoTime(); 
+            resultsLZW.get("decode").add((end-start) + 0.0);
+        }       
+        processResultList(testString, resultsLZW);
+        results.put(testString, resultsLZW); 
     }
 
-    public static void processResults(ArrayList<Double> list, String algorithm, String method, String testString) {
-        list.remove(Collections.min(list));
-        list.remove(Collections.max(list));
-        list.remove(Collections.max(list));
+    public static void printResults(String algorithm) {
 
-        double sum = 0; 
+        System.out.println("__________________________Testing " + algorithm + " Performance__________________________");
+        
+        System.out.format("%16s%16s%16s%16s%16s%n", "Name of file", "Encode","Decode","writeFile", "readFile"); 
 
-        for (Double result : list) { sum += result; }
-
-        System.out.println("Name of file  : " + testString);
-        System.out.println("Algorithm     : " + algorithm);
-        System.out.println("Method        : " + method);
-        System.out.println("Time taken    : " + String.format("%.2f", sum / (reps-2)) + " ms");
-        System.out.println();
-    }
-
-    public static void edgeCaseLZW() {
-        String edgeCase = "";
-
-        LZW lzw = new LZW(); 
-
-        ArrayList<Double> resultList = new ArrayList<>();
-
-        // int[] inputArray = new int[]{1000, 5000, 10000, 15000, 20000, 40000, 80000, 150000};
-        int[] inputArray = new int[]{1000, 5000, 10000};
-
-        for (int i = 0; i < inputArray.length; i++) {
-            double max = Integer.MIN_VALUE; 
-            double min = Integer.MAX_VALUE;
-            int maxIndex = 0; 
-            int minIndex = 0;
-
-            for (int j = 0; j < inputArray[i]; j++) { 
-                edgeCase += "cScSc" + " ";
-            }
-
-            for (int k = 0; k < 10; k++) { 
-
-
-            }
-            long start = System.nanoTime();
-            lzw.compress(edgeCase);
-            long end = System.nanoTime(); 
-
-            double result = (end - start) / 1E6;      
-            resultList.add(Double.parseDouble(String.format("%.2f",result)));
-            edgeCase = ""; 
+        for (String inputName : results.keySet()) {
+            Double value1 = results.get(inputName).get("encode").get(0);
+            Double value2 = results.get(inputName).get("decode").get(0);
+            Double value3 = results.get(inputName).get("writeFile").get(0);
+            Double value4 = results.get(inputName).get("readFile").get(0);
+            System.out.format("%16s%16s%16s%16s%16s%n", inputName, value1, value2, value3, value4); 
         }
-        System.out.println(resultList);
+        System.out.println();
+        results.clear();
     }
-    public static void main(String[] args) {
-        encodingTime("100_KB_lorem.txt", true, true);
-        encodingTime("Large Lorem.txt", true, true);
-        encodingTime("100_KB_repeating_lorem_ipsum.txt", true, true);
-        encodingTime("100_KB_cScSc.txt", true, true);
-        encodingTime("ASCII_256.txt", true, true);
-        // edgeCaseLZW(); 
+
+    public static void processResultList(String inputName, HashMap<String, ArrayList<Double>> results) {
+        for (ArrayList<Double> list : results.values()) {
+            list.remove(Collections.min(list));
+            list.remove(Collections.max(list));
+            list.remove(Collections.max(list));
+            Collections.sort(list); 
+            double result = list.get(list.size() / 2) / 1E6; 
+            list.clear();
+            list.add(Double.parseDouble(String.format("%.2f",result)));
+        }
+
+    }
+
+    public static void main(String[] args) throws java.io.IOException {
+        testingHuffman("100_KB_lorem.txt");
+        testingHuffman("artofwar.txt");
+        testingHuffman("100_KB_cScSc.txt");
+        testingHuffman("ASCII_256.txt");
+        printResults("Huffman");
+        testingLZW("100_KB_lorem.txt");
+        testingLZW("artofwar.txt");
+        testingLZW("100_KB_cScSc.txt");
+        testingLZW("ASCII_256.txt");
+        printResults("LZW");
     }
 }

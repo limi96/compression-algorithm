@@ -55,8 +55,7 @@ public class HuffmanUtils {
             String current = dataStream.readUTF();
             if (current.equals("null")) {
                 serializedInput.add("null");
-            }
-            else {
+            } else {
                 serializedInput.add(current);
             }
         }
@@ -80,22 +79,19 @@ public class HuffmanUtils {
                 Node newLeftNode = new Node(serializedInput.get(index));
                 first.setLeftNode(newLeftNode);
                 queue.addLast(newLeftNode);
-            }
-            else {
+            } else {
                 first.setLeftNode(null);
             }
-
+            
             index++; 
-
+            
             if (!serializedInput.get(index).equals("null")) {
                 Node newRightNode = new Node(serializedInput.get(index));
                 first.setRightNode(newRightNode);
                 queue.addLast(newRightNode);
-            }
-            else {
+            } else {
                 first.setRightNode(null);
             }
-
             index++; 
         }    
         return rootNode;
@@ -107,18 +103,16 @@ public class HuffmanUtils {
 
         queue.addFirst(root);
         
-        while(!queue.isEmpty()) {
+        while (!queue.isEmpty()) {
             Node first = queue.pollFirst(); 
             if (first == null || first.letter.equals("null")) { 
                 result.add("null");
-            }
-            else {
+            } else {
                 result.add(first.getLetter());   
                 queue.addLast(first.getLeftNode());
                 queue.addLast(first.getRightNode());
             }
         }
-
         return result; 
     }
 

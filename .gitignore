@@ -20,3 +20,11 @@ algorithms/.project
 algorithms/.vscode/
 .gradle
 
+/algorithms/target
+/algorithms/.classpath
+/algorithms/.settings
+/algorithms/nbproject
+/algorithms/.project
+/algorithms/.vscode/
+/.gradle
+

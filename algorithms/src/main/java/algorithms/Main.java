@@ -6,11 +6,10 @@ public class Main {
         
     public static void main(String[] args) throws java.io.IOException {
         // Go to CompressionBenchmark and run to see the compression rates.
-        // Go to PerformanceBenchmark and run to see the performance speeds.mvn
+        // Go to PerformanceBenchmark and run to see the performance speeds
         Ui.main(args);
 
     }   
-
 }
     
 

@@ -1,0 +1,107 @@
+_____________Testing Huffman Compression Rates_____________
+Filename                                    : test_files/100_KB_lorem.txt                
+Input   Message length        (in bits)     : 802640
+Encoded Message length        (in bits)     : 429442
+Input File size               (in bytes)    : 100330
+Huffman Compressed File size  (in bytes)    : 54398
+Huffman Tree File size        (in bytes)    : 716
+Huffman Message File size     (in bytes)    : 53682
+Huffman compression rate                    : 54.22 %
+Compression rate Without Tree               : 53.51 %
+
+_____________Testing Huffman Compression Rates_____________
+Filename                                    : test_files/artofwar.txt
+Input   Message length        (in bits)     : 2577984
+Encoded Message length        (in bits)     : 1499670
+Input File size               (in bytes)    : 322248
+Huffman Compressed File size  (in bytes)    : 188924
+Huffman Tree File size        (in bytes)    : 1464
+Huffman Message File size     (in bytes)    : 187460
+Huffman compression rate                    : 58.63 %
+Compression rate Without Tree               : 58.17 %
+
+_____________Testing Huffman Compression Rates_____________
+Filename                                    : test_files/100_KB_cScSc.txt
+Input   Message length        (in bits)     : 800008
+Encoded Message length        (in bits)     : 150013
+Input File size               (in bytes)    : 100001
+Huffman Compressed File size  (in bytes)    : 18806
+Huffman Tree File size        (in bytes)    : 53
+Huffman Message File size     (in bytes)    : 18753
+Huffman compression rate                    : 18.81 %
+Compression rate Without Tree               : 18.75 %
+
+_____________Testing Huffman Compression Rates_____________
+Filename                                    : test_files/ASCII_256.txt
+Input   Message length        (in bits)     : 2160
+Encoded Message length        (in bits)     : 1317
+Input File size               (in bytes)    : 270
+Huffman Compressed File size  (in bytes)    : 3221
+Huffman Tree File size        (in bytes)    : 3055
+Huffman Message File size     (in bytes)    : 166
+Huffman compression rate                    : 1192.96 %
+Compression rate Without Tree               : 61.48 %
+
+_____________Testing Huffman Compression Rates_____________
+Filename                                    : test_files/Large Lorem.txt
+Input   Message length        (in bits)     : 223131704
+Encoded Message length        (in bits)     : 119382660
+Input File size               (in bytes)    : 27891463
+Huffman Compressed File size  (in bytes)    : 14923550
+Huffman Tree File size        (in bytes)    : 716
+Huffman Message File size     (in bytes)    : 14922834
+Huffman compression rate                    : 53.51 %
+Compression rate Without Tree               : 53.50 %
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_____________Testing LZW Compression Rates_____________
+Filename                                    : test_files/100_KB_lorem.txt
+Input   Message length        (in bits)     : 802640
+Encoded Message length        (in bits)     : 275208
+Input File size               (in bytes)    : 100330
+LZW Compressed File size  (in bytes)        : 34401
+LZW compression rate                        : 34.29 %
+
+_____________Testing LZW Compression Rates_____________
+Filename                                    : test_files/artofwar.txt
+Input   Message length        (in bits)     : 2577984
+Encoded Message length        (in bits)     : 1323576
+Input File size               (in bytes)    : 322248
+LZW Compressed File size  (in bytes)        : 165447
+LZW compression rate                        : 51.34 %
+
+_____________Testing LZW Compression Rates_____________
+Filename                                    : test_files/100_KB_cScSc.txt
+Input   Message length        (in bits)     : 800008
+Encoded Message length        (in bits)     : 13328
+Input File size               (in bytes)    : 100001
+LZW Compressed File size  (in bytes)        : 1666
+LZW compression rate                        : 1.67 %
+
+_____________Testing LZW Compression Rates_____________
+Filename                                    : test_files/Large Lorem.txt
+Input   Message length        (in bits)     : 223131704
+Encoded Message length        (in bits)     : 72582176
+Input File size               (in bytes)    : 27891463
+LZW Compressed File size  (in bytes)        : 9072772
+LZW compression rate                        : 32.53 %
+
+_____________Testing LZW Compression Rates_____________
+Filename                                    : test_files/ASCII_256.txt
+Input   Message length        (in bits)     : 2160
+Encoded Message length        (in bits)     : 2112
+Input File size               (in bytes)    : 270
+LZW Compressed File size  (in bytes)        : 264
+LZW compression rate                        : 97.78 %

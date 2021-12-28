@@ -48,7 +48,7 @@ public class FileUtils {
 
     public static byte[] bitsToByte(String input) {
         int length = input.length();
-        byte[] bytes = new byte[(int) Math.ceil(length / 8.0)+1];
+        byte[] bytes = new byte[(int) Math.ceil(length / 8.0) + 1];
         int byteCounter = 1;
         int bitPointer = 0;
         int currentByte = 0;
@@ -77,7 +77,7 @@ public class FileUtils {
         return bytes;
     }
     
-    public static String bytesToBits(byte[] bytes ) {
+    public static String bytesToBits(byte[] bytes) {
 
         StringBuffer bitBuffer = new StringBuffer(); 
 
@@ -88,11 +88,11 @@ public class FileUtils {
 
             byte b = bytes[i];
         
-            if (i == bytes.length-1) {
+            if (i == bytes.length - 1) {
                 bitLength = lastLength == 0 ? 8 : lastLength; 
             }
 
-            for (int j = 7; j >= 8-bitLength; j--) {  
+            for (int j = 7; j >= 8 - bitLength; j--) {  
                 bitBuffer.append((b >> j) & 1);
             }        
             
@@ -104,7 +104,7 @@ public class FileUtils {
     public static String intToBits(int input, int bitLength) { 
         StringBuffer bitBuffer = new StringBuffer(); 
 
-        for (int j = bitLength-1; j >= 0; j--) {  
+        for (int j = bitLength - 1; j >= 0; j--) {  
             bitBuffer.append((input >> j) & 1);
         }        
         return bitBuffer.toString();
@@ -113,11 +113,11 @@ public class FileUtils {
     public static int bitsToInt(String bits) {
 
         int output = 0; 
-        int bitLength = bits.length()-1; 
+        int bitLength = bits.length() - 1; 
 
         for (int i = bitLength; i >= 0; i--) { 
             if (bits.charAt(i) == '1') {
-                output += Math.pow(2, bitLength-i);
+                output += Math.pow(2, bitLength - i);
             }   
         }
     
