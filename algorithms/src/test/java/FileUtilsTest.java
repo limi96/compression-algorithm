@@ -19,8 +19,8 @@ public class FileUtilsTest {
     @Before
     public void setUp() {
         numberOfWrongResults = 0;
-        numberOfRepetitions = 100;  
-        lengthOfInput = 100;  
+        numberOfRepetitions = 1000;  
+        lengthOfInput = 10000;  
     }
     
     @After

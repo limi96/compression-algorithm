@@ -1,0 +1,57 @@
+__________________________Testing Huffman Performance__________________________
+    Name of file          Encode          Decode       writeFile        readFile
+            1000         0.97 ms         1.02 ms         0.78 ms         0.68 ms
+            3000         1.81 ms          1.4 ms         0.51 ms         0.56 ms
+            5000         1.11 ms         1.06 ms         0.53 ms         0.66 ms
+            7000          1.5 ms         1.63 ms         0.44 ms          0.7 ms
+           10000         1.29 ms         2.11 ms         0.46 ms          0.8 ms
+           30000         2.44 ms         9.77 ms         1.01 ms         1.81 ms
+           50000         6.23 ms        10.26 ms         1.43 ms         2.73 ms
+           70000         5.82 ms        16.01 ms         2.03 ms         3.57 ms
+          100000        14.06 ms        28.78 ms         2.78 ms         5.89 ms
+          300000        26.25 ms         68.4 ms         8.63 ms        16.66 ms
+          500000        38.24 ms       104.15 ms        12.78 ms        24.41 ms
+          700000        55.09 ms       146.82 ms        17.94 ms        34.54 ms
+         1000000        77.21 ms       205.43 ms         25.5 ms        48.79 ms
+         3000000       256.47 ms       681.35 ms        82.28 ms       160.39 ms
+         5000000       430.03 ms      1112.68 ms       135.88 ms       275.51 ms
+         7000000        601.1 ms      1575.58 ms        189.2 ms       375.32 ms
+        10000000       885.72 ms      2219.71 ms       280.02 ms       559.63 ms
+
+__________________________Testing LZW Performance__________________________
+    Name of file          Encode          Decode       writeFile        readFile
+            1000         1.38 ms         0.95 ms         0.21 ms         1.55 ms
+            3000         1.76 ms         1.43 ms         0.19 ms         1.11 ms
+            5000         1.54 ms         1.01 ms         0.29 ms         1.73 ms
+            7000          1.3 ms         0.56 ms         0.38 ms          2.4 ms
+           10000          1.8 ms          0.7 ms         0.45 ms         3.36 ms
+           30000         5.03 ms         1.79 ms         1.17 ms         9.82 ms
+           50000         8.13 ms         2.82 ms         1.91 ms        16.08 ms
+           70000        11.84 ms         4.03 ms         2.61 ms        22.48 ms
+          100000        16.36 ms         5.43 ms         3.84 ms        31.76 ms
+          300000         53.0 ms        16.31 ms        10.71 ms         97.0 ms
+          500000         83.3 ms        25.51 ms        17.98 ms       161.79 ms
+          700000       114.42 ms        36.12 ms        24.58 ms       225.76 ms
+         1000000       263.78 ms        55.87 ms        35.02 ms       460.05 ms
+         3000000       870.78 ms       139.83 ms       107.47 ms       987.85 ms
+         5000000      1056.05 ms       298.34 ms       177.28 ms      1861.37 ms
+         7000000      1719.03 ms       467.06 ms       249.16 ms      2619.46 ms
+        10000000      4832.07 ms       595.11 ms       428.02 ms       3996.7 ms
+
+__________________________Testing Huffman Performance__________________________
+    Name of file          Encode          Decode       writeFile        readFile
+100_KB_lorem.txt         9.33 ms        12.36 ms         1.69 ms         3.12 ms
+ Large Lorem.txt      2175.35 ms      2894.58 ms       372.81 ms       734.81 ms
+    artofwar.txt        30.41 ms        43.93 ms         5.55 ms        10.67 ms
+   ASCII_256.txt         0.04 ms         0.03 ms         0.07 ms         0.05 ms
+ warandpeace.txt       259.12 ms       356.15 ms        48.93 ms        91.35 ms
+100_KB_cScSc.txt         7.57 ms         3.61 ms         0.53 ms         1.04 ms
+
+__________________________Testing LZW Performance__________________________
+    Name of file          Encode          Decode       writeFile        readFile
+100_KB_lorem.txt         9.85 ms         1.72 ms         0.99 ms         8.76 ms
+ Large Lorem.txt      3462.57 ms        411.7 ms       227.57 ms      2567.61 ms
+    artofwar.txt        35.21 ms         6.99 ms         4.29 ms         41.2 ms
+   ASCII_256.txt         0.21 ms         0.07 ms         0.06 ms         0.09 ms
+ warandpeace.txt        462.6 ms        69.44 ms        41.82 ms       425.41 ms
+100_KB_cScSc.txt        14.08 ms         0.18 ms         0.13 ms         0.44 ms

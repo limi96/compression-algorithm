@@ -13,7 +13,7 @@ import algorithms.utils.Node;
 
 public class PerformanceBenchmark {
 
-    public static int reps = 1; 
+    public static int reps = 100; 
     public static Huffman h = new Huffman(); 
     public static LZW lzw = new LZW(); 
     public static long start;
@@ -143,11 +143,19 @@ public class PerformanceBenchmark {
 
     public static void processResultList(String inputName, HashMap<String, ArrayList<Double>> results) {
         for (ArrayList<Double> list : results.values()) {
-            // list.remove(Collections.min(list));
-            // list.remove(Collections.max(list));
-            // list.remove(Collections.max(list));
-            Collections.sort(list); 
-            double result = list.get(list.size() / 2) / 1E6; 
+            list.remove(Collections.min(list));
+            list.remove(Collections.max(list));
+            list.remove(Collections.max(list));
+
+            double sum = 0; 
+
+            for (Double number : list) {
+                sum += number; 
+            }
+            double result = (sum / list.size()) / 1E6; 
+            
+            // double result = list.get(list.size() / 2) / 1E6; 
+
             list.clear();
             list.add(Double.parseDouble(String.format("%.2f",result)));
         }
@@ -166,7 +174,8 @@ public class PerformanceBenchmark {
 
     public static void main(String[] args) throws java.io.IOException {
 
-        long[] inputSizes = new long[]{1000, 3000, 5000, 7000, 10000, 100000, 300000, 500000, 700000, 1000000, 3000000, 5000000, 7000000, 10000000}; 
+        long[] inputSizes = new long[]{1000, 3000, 5000, 7000, 10000, 30000, 50000, 70000, 100000, 300000, 500000, 700000, 1000000, 3000000, 5000000, 7000000, 10000000}; 
+        // long[] inputSizes = new long[]{1000, 3000, 5000, 7000, 10000, 30000, 50000, 70000, 100000};
 
         for (long inputSize : inputSizes) {
             testingHuffman("" + inputSize, inputSize);     

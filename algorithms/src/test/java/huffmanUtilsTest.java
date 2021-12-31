@@ -1,8 +1,5 @@
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -34,13 +31,8 @@ public class huffmanUtilsTest {
         h = new Huffman(); 
         rnd = new Random();   
         numberOfWrongResults = 0;
-        numberOfRepetitions = 100;  
-        lengthOfInput = 100;  
-
-    }
-    
-    @After
-    public void tearDown() {
+        numberOfRepetitions = 1000;  
+        lengthOfInput = 10000;  
     }
 
     @Test

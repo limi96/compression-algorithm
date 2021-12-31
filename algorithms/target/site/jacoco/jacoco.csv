@@ -1,7 +1,7 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 Algorithms,algorithms.utils,HuffmanUtils,3,249,1,17,1,64,2,14,1,6
-Algorithms,algorithms.utils,FileUtils,25,248,0,26,3,57,1,21,1,8
+Algorithms,algorithms.utils,FileUtils,14,259,0,26,2,58,1,21,1,8
 Algorithms,algorithms.utils,Node,0,81,0,0,0,27,0,10,0,10
 Algorithms,algorithms,Main,6,0,0,0,3,0,2,0,2,0
-Algorithms,algorithms,Huffman,10,318,4,22,4,63,8,22,4,13
-Algorithms,algorithms,LZW,3,388,0,24,1,85,1,24,1,12
+Algorithms,algorithms,Huffman,10,316,4,22,4,62,8,22,4,13
+Algorithms,algorithms,LZW,3,380,0,24,1,81,1,24,1,12

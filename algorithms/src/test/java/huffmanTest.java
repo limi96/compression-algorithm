@@ -32,8 +32,8 @@ public class huffmanTest {
         h = new Huffman(); 
         rnd = new Random();
         numberOfWrongResults = 0;
-        numberOfRepetitions = 100;  
-        lengthOfInput = 100;  
+        numberOfRepetitions = 1000;  
+        lengthOfInput = 10000;  
     }
 
     @After
@@ -42,7 +42,7 @@ public class huffmanTest {
 
     @Test
     public void correctEncodeDecodeTestFiles() throws java.io.IOException {
-        String[] inputFileNames = new String[]{"100_KB_lorem.txt", "100_KB_repeating_lorem_ipsum.txt", "100_KB_cScSc.txt", "ASCII_256.txt"};
+        String[] inputFileNames = new String[]{"100_KB_lorem.txt", "artofwar.txt", "warandpeace.txt", "100_KB_cScSc.txt", "ASCII_256.txt"};
 
         for (String fileName : inputFileNames) {
             fileName = "test_files/" + fileName; 
