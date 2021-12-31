@@ -3,8 +3,14 @@
 This repository is for the data structures and algorithms project course for Helsinki University.
 The project implements the Huffman and Lempel-Ziv-Welch (LZW) algorithms. 
 
+## Requirements
+
+The current project is implemented in Java 11 and requires JavaFX component as well as Maven (project is build with Maven).
+Unit tests are performed with JUnit. 
+
 ## Documentation
 
+ - [GUI app](https://github.com/limi96/compression-algorithm/releases/tag/finalrelease)
  - [User manual](https://github.com/limi96/compression-algorithm/blob/master/Documentation/user%20manual.md) 
  - [Project specification](https://github.com/limi96/compression-algorithm/blob/master/Documentation/project%20specification.md) 
  - [Implementation document](https://github.com/limi96/compression-algorithm/blob/master/Documentation/implementation%20document.md) 
