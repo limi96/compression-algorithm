@@ -66,7 +66,7 @@ public class PerformanceBenchmark {
             end = System.nanoTime(); 
             resultsHuffman.get("decode").add((end-start) + 0.0);
         }       
-        processResultList(testString, resultsHuffman);
+        addMedianTimeToList(testString, resultsHuffman);
         results.put(testString, resultsHuffman); 
     }
 
@@ -103,7 +103,7 @@ public class PerformanceBenchmark {
             end = System.nanoTime(); 
             resultsLZW.get("decode").add((end-start) + 0.0);
         }       
-        processResultList(testString, resultsLZW);
+        addMedianTimeToList(testString, resultsLZW);
         results.put(testString, resultsLZW); 
     }
 
@@ -141,20 +141,14 @@ public class PerformanceBenchmark {
         results.clear();
     }
 
-    public static void processResultList(String inputName, HashMap<String, ArrayList<Double>> results) {
+    public static void addMedianTimeToList(String inputName, HashMap<String, ArrayList<Double>> results) {
         for (ArrayList<Double> list : results.values()) {
             list.remove(Collections.min(list));
             list.remove(Collections.max(list));
             list.remove(Collections.max(list));
 
-            double sum = 0; 
-
-            for (Double number : list) {
-                sum += number; 
-            }
-            double result = (sum / list.size()) / 1E6; 
-            
-            // double result = list.get(list.size() / 2) / 1E6; 
+            Collections.sort(list);
+            double result = list.get(list.size() / 2) / 1E6; 
 
             list.clear();
             list.add(Double.parseDouble(String.format("%.2f",result)));
@@ -174,9 +168,10 @@ public class PerformanceBenchmark {
 
     public static void main(String[] args) throws java.io.IOException {
 
-        long[] inputSizes = new long[]{1000, 3000, 5000, 7000, 10000, 30000, 50000, 70000, 100000, 300000, 500000, 700000, 1000000, 3000000, 5000000, 7000000, 10000000}; 
-        // long[] inputSizes = new long[]{1000, 3000, 5000, 7000, 10000, 30000, 50000, 70000, 100000};
+        // Example of how to use the PerformanceBenchmark
 
+        //Testing several random inputs with several different sizes
+        long[] inputSizes = new long[]{1000, 3000, 5000, 7000, 10000, 30000, 50000, 70000, 100000, 300000, 500000, 700000, 1000000, 3000000, 5000000, 7000000, 10000000}; 
         for (long inputSize : inputSizes) {
             testingHuffman("" + inputSize, inputSize);     
         }
@@ -187,6 +182,7 @@ public class PerformanceBenchmark {
         }
         printResults("LZW", true);
 
+        // Testing with the test files 
         testingHuffman("100_KB_lorem.txt", 0);
         testingHuffman("artofwar.txt", 0);
         testingHuffman("warandpeace.txt", 0);

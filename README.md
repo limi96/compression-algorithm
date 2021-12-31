@@ -1,29 +1,14 @@
 # Data structures and Algorithm lab course
 
 This repository is for the data structures and algorithms project course for Helsinki University.
+The project implements the Huffman and Lempel-Ziv-Welch (LZW) algorithms. 
 
-# Current state
+## Documentation
 
-- Currently the Main-class has a method to test if bits to bytes to bits works correctly.
-- Compression benchmark gives an incorrect result, because each bit is represented a byte (Therefore 8 times bigger files size). 
-- This will be corrected with the aformentioned bits to bytes converters. I'll implement it as soon as I have time, next week. 
-- Huffman class is terribly messy (apologies). 
-
-# Running the project
-
-Make sure you run the project in the "compression-algorithm" -folder. 
-If run in the algorithms folder, the absolute path could be incorrect and results in a filepath of
-"/algorithms/algorithms/test_files" instead of "/algorithms/test_files" !
-
-If this doesn't work, you can also go to the FileUtils.java file and edit 
-```
-File testing = new File("algorithms/test_files/" + fileName);
-```
-into 
-
-```
-File testing = new File("test_files/" + fileName);
-```
+ - [User manual](https://github.com/limi96/compression-algorithm/blob/master/Documentation/user%20manual.md) 
+ - [Project specification](https://github.com/limi96/compression-algorithm/blob/master/Documentation/project%20specification.md) 
+ - [Implementation document](https://github.com/limi96/compression-algorithm/blob/master/Documentation/implementation%20document.md) 
+ - [Testing document](https://github.com/limi96/compression-algorithm/blob/master/Documentation/testing%20document.md) 
 
 ## Weekly reports
 

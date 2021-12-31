@@ -66,6 +66,7 @@ public class CompressionBenchmark {
     }
     public static void main(String[] args) throws java.io.IOException {
 
+        // Example of how to use the CompressionBenchmark
         huffmanTest("100_KB_lorem.txt");
         huffmanTest("artofwar.txt");
         huffmanTest("warandpeace.txt");

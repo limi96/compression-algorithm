@@ -1,18 +1,27 @@
 package algorithms; 
 
 import algorithms.ui.Ui;
+import algorithms.benchmarks.*;
 
 public class Main {
         
     /**
-     * Launches the GUI app 
-     * Go to CompressionBenchmark and run to see the compression rates
-     * Go to PerformanceBenchmark and run to see the performance speeds
-     * @param args
+     * Launches the GUI app or benchmarks. 
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws java.io.IOException {
-        Ui.main(args);
+        
+        if (args.length != 0) {
+            if (args[0].equals("compression")) {
+                CompressionBenchmark.main(args);
+            } else if (args[0].equals("performance")) {
+                PerformanceBenchmark.main(args); 
+            } else {
+                Ui.main(args);
+            }
+        } else {
+            Ui.main(args);
+        }
     }   
 }
     

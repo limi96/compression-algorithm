@@ -37,6 +37,7 @@
         <configuration>
           <excludes>
             <exclude>algorithms/ui/**/*</exclude>
+            <exclude>algorithms/benchmarks/**/*</exclude>
           </excludes>
         </configuration>
       </plugin>

@@ -7,6 +7,9 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 
 
+/**
+ * Sets the view of the GUI app
+ */
 public class Ui extends Application {
 
     private Scene mainScene;
@@ -27,6 +30,7 @@ public class Ui extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setResizable(false);
         stage.setTitle("Huffman and LZW");
         stage.setScene(mainScene);   
         stage.show();

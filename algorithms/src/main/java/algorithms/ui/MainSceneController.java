@@ -19,6 +19,10 @@ import algorithms.LZW;
 import algorithms.utils.FileUtils;
 import algorithms.utils.Node;
 
+
+/**
+ * Implements all of the logic of the GUI app
+ */
 public class MainSceneController implements Initializable {
 
     private Ui application;
