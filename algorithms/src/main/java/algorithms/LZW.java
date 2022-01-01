@@ -27,7 +27,7 @@ public class LZW {
     /**
      * Adjusts the length of bits per encoded message element. 
      * Default is set at 12, but can be changed from 8 to 32 bits. 
-     * The higher number of bits, the higher the maximum dictionary size that stores reoccuring patterns
+     * The longer the length of encoded bits, the higher the maximum dictionary size that stores reoccuring patterns
      * With messages of large numbers of frequently occuring patterns, the higher the better. 
      * However, this will result in a longer encoded message. 
      * Nevertheless, the optimal bit length is usually around 9-12 bits. 
@@ -175,7 +175,6 @@ public class LZW {
         // Output 
         StringBuffer outputBuffer = new StringBuffer(); 
         outputBuffer.append(currentString); 
-        // String decodedString = currentString; 
 
         for (int i = 0; i < encoded.size() - 1; i++) {
 
@@ -191,7 +190,6 @@ public class LZW {
             //Append currentString to form decoded message
 
             outputBuffer.append(currentString); 
-            // decodedString += currentString; 
             
             // Form a letter combination
             previousChar = "" + currentString.charAt(0);
@@ -205,7 +203,6 @@ public class LZW {
             inputCode = nextCode;
         }
         return outputBuffer.toString(); 
-        // return decodedString;
     }
 
     /**
