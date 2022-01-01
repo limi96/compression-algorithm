@@ -8,6 +8,35 @@ In order to run the benchmarks use ``` mvn compile exec:java -Dexec.mainClass="M
 
 **Please note that the performance benchmark will take over an hour to complete at 100 reps.** The reps are adjusted by the global variable called ``` int reps ``` At 10 repetitions it will take about 8 minutes and 15 minutes for 20. 
 
+## Other useful commands 
+
+### JUnit testing
+
+```
+mvn test
+```
+
+### Test coverage
+
+```
+mvn jacoco:report
+```
+The report will be located in ```algorithms/target/jacoco/index.html```
+
+### Checkstyle-raport generation
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+The report will be located in ```algorithms/target/checkstyle.html```
+
+### Jar-executable generation
+
+```
+mvn package
+```
+The jar-executable will be located in ```algorithms/target```
+
+
 ## Using the executable 
 
 Run ```java -jar Algorithms-1.0-SNAPSHOT.jar``` in the terminal and make sure that the terminal is running in the same directory, where the -jar file is located!

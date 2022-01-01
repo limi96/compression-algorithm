@@ -13,7 +13,7 @@ Current lines coverage is 97 % and branch coverage 94 %.
 
 For the FileUtils-, Huffman-, HuffmanUtils- and LZW-classes, all input and output methods are tested with randomly generated String inputs. In the case of each individual randomly generated String, the tests check whether or not we can arrive to the same randomly generated String after encoding and decoding or writing and reading. 
 
-If one wishes to adjust the parameters of these tests, ```numberOfRepetitions``` and ``` lengthOfInput``` are the global variables described in the ```public void setUp()``` class that adjust their namesake parameters. The default values are 1000 repetitions at 10000 input length. After this, all tests can be run with the command ```mvn test```. 
+If one wishes to adjust the parameters of these tests, ```numberOfRepetitions``` and ``` lengthOfInput``` are the global variables described in the ```public void setUp()``` class that adjust their namesake parameters. The default values are 1000 repetitions at 10000 input length. After this, all tests can be run with the command ```mvn test``` and obtaining the Jacoco report with ```mvn jacoco:report```. 
 
 ### UI-testing and known errors
 
