@@ -67,7 +67,11 @@ Implementation of the Huffman Node Tree as a Ternary Search Tree (TST) could pot
 
 ## Sources
 
-[Huffman](https://en.wikipedia.org/wiki/Huffman_coding)
-[LZW](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch)
+[Huffman](https://en.wikipedia.org/wiki/Huffman_coding) Accessed at 26.12.2021
 
+[Huffman pseudocode](http://cs.bc.edu/~alvarez/Algorithms/Notes/huffman.pdf) Accessed at 26.12.2021
+
+[LZW](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch) Accessed at 26.12.2021
+
+[LZW pseudocode](https://cs.carleton.edu/faculty/jondich/courses/cs337_w00/Assignments/lzw.html) Accessed at 26.12.2021
 
